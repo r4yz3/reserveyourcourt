@@ -1217,3 +1217,95 @@
         transform: none;
     }
 }
+
+/* Player venue and checkout refinements */
+.public-venue-heading {
+    background: var(--navy-900);
+    color: #e9eef7;
+    border-radius: 20px;
+    padding: 36px 40px;
+    margin: 14px 0 28px;
+    align-items: flex-end;
+}
+.public-venue-heading h1 {
+    color: #fff;
+    font-weight: 620;
+    letter-spacing: -0.03em;
+    margin-bottom: 0;
+}
+.public-venue-heading .muted {
+    color: #a3afc4;
+}
+.venue-city {
+    color: var(--ball);
+    font-weight: 550;
+}
+.public-venue-rate {
+    color: #a3afc4;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 12px 16px;
+}
+.public-venue-rate strong {
+    color: #fff;
+}
+.availability-filters {
+    background: var(--ground);
+    border: 0;
+    border-radius: 14px;
+    padding: 18px;
+}
+.public-court-slots {
+    border-radius: 14px;
+    padding: 20px 22px 22px;
+}
+.public-court-slots legend {
+    color: var(--navy-900);
+}
+.slot-option > span {
+    border-radius: 9px;
+    font-weight: 550;
+    color: var(--navy-800);
+    transition:
+        background-color 0.15s var(--ease-out),
+        border-color 0.15s var(--ease-out);
+}
+.slot-option:hover > span {
+    background: var(--tint);
+    border-color: #a9b5ca;
+}
+.slot-option:has(input:checked) > span {
+    background: var(--ball);
+    border-color: var(--ball-strong);
+    color: var(--ball-ink);
+    box-shadow: 0 6px 14px -8px rgba(122, 140, 10, 0.7);
+}
+.slot-option:has(input:disabled) > span {
+    background: var(--ground);
+    border-color: var(--line);
+}
+.player-checkout {
+    background: var(--surface);
+    border: 0;
+    border-radius: 18px;
+    box-shadow: 0 0 0 1px var(--line), var(--elevation);
+}
+.player-total strong {
+    color: var(--navy-900);
+    font-weight: 620;
+    letter-spacing: -0.03em;
+}
+.acknowledgement input {
+    accent-color: var(--navy-700);
+}
+@media (max-width: 760px) {
+    .public-venue-heading {
+        padding: 26px 22px;
+        border-radius: 16px;
+        align-items: flex-start;
+    }
+    .availability-filters {
+        padding: 14px;
+    }
+}

@@ -3096,3 +3096,218 @@ textarea:focus-visible {
 .login-intro .court-mark i {
     border-color: #e9eef7;
 }
+
+/* Workspace refinements: shell, status, admin and coach surfaces */
+@media (min-width: 761px) {
+    .app-frame {
+        background: linear-gradient(to right, var(--navy-900) var(--sidebar), var(--ground) var(--sidebar));
+    }
+    .sidebar {
+        overflow-y: auto;
+        scrollbar-width: none;
+    }
+    .nav-caption {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        margin: 22px 12px 8px;
+    }
+    nav[aria-label="Workspace"] > .nav-caption:first-child {
+        margin-top: 0;
+    }
+    .nav-link {
+        min-height: 40px;
+        margin-bottom: 2px;
+    }
+    .workspace-label {
+        margin: 32px 0 24px;
+    }
+}
+@media (max-width: 760px) {
+    .nav-caption {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        margin: 16px 12px 6px;
+    }
+}
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 999px;
+    padding: 4px 10px 4px 8px;
+    font-weight: 600;
+    font-size: 11px;
+    white-space: nowrap;
+    background: var(--tint);
+    color: var(--navy-700);
+}
+.status:before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.85;
+}
+.status.approved,
+.status.confirmed,
+.status.completed {
+    background: #e8f5ec;
+    color: #1d6b3d;
+}
+.status.pending,
+.status.held,
+.status.awaiting_review,
+.reservation.held .status,
+.reservation.awaiting_review .status {
+    background: #fff4d9;
+    color: #7a5512;
+}
+.status.draft {
+    background: #eef0f3;
+    color: #4f5868;
+}
+.status.suspended,
+.status.cancelled,
+.status.expired {
+    background: #fdecea;
+    color: #9a3328;
+}
+
+.schedule-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.view-switch {
+    background: var(--ground);
+    border-color: var(--line);
+    border-radius: 9px;
+}
+.view-switch button {
+    border-radius: 6px;
+    font-weight: 550;
+}
+.view-switch button[aria-pressed="true"] {
+    color: var(--navy-800);
+    border-color: var(--line);
+    box-shadow: 0 1px 2px rgba(10, 20, 38, 0.08);
+}
+.metrics {
+    border-radius: 14px;
+}
+
+.business-identity .venue-initial,
+.venue-initial {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--navy-800);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 650;
+}
+.business-row {
+    border-radius: 12px;
+    transition: background-color 0.2s var(--ease-out);
+}
+.business-row:hover {
+    background: #f8fafc;
+}
+
+.coach-admin-row {
+    grid-template-columns: minmax(0, 1fr) 240px;
+    align-items: start;
+    padding: 24px;
+    margin-bottom: 14px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+}
+.coach-admin-identity {
+    display: flex;
+    gap: 16px;
+    min-width: 0;
+}
+.coach-admin-identity > div {
+    min-width: 0;
+}
+.coach-admin-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.coach-admin-title h2 {
+    margin: 0;
+    font-size: 17px;
+}
+.coach-admin-identity .small {
+    margin: 4px 0 14px;
+}
+.coach-admin-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 32px;
+    margin: 0 0 12px;
+}
+.coach-admin-facts dt {
+    font-size: 11px;
+    color: var(--muted);
+}
+.coach-admin-facts dd {
+    margin: 3px 0 0;
+    font-weight: 550;
+}
+.coach-admin-row .coach-bio {
+    margin: 0;
+    max-width: 68ch;
+    color: #3b4558;
+}
+.coach-admin-row form {
+    background: var(--ground);
+    border-radius: 10px;
+    padding: 16px;
+}
+
+.coach-tabs {
+    gap: 4px;
+    border-bottom: 0;
+    background: var(--ground);
+    border-radius: 11px;
+    padding: 4px;
+    width: max-content;
+    max-width: 100%;
+}
+.coach-tabs a {
+    padding: 8px 14px;
+    border-radius: 8px;
+    color: var(--muted);
+    font-weight: 550;
+    font-size: 13px;
+    transition:
+        background-color 0.2s var(--ease-out),
+        color 0.2s var(--ease-out);
+}
+.coach-tabs a:hover {
+    color: var(--navy-800);
+    background: rgba(255, 255, 255, 0.6);
+}
+.coach-tabs a[aria-current="page"] {
+    border-bottom: 0;
+    background: var(--surface);
+    color: var(--navy-800);
+    box-shadow: 0 1px 2px rgba(10, 20, 38, 0.08), 0 0 0 1px var(--line);
+}
+@media (max-width: 600px) {
+    .coach-admin-row {
+        padding: 18px;
+    }
+}

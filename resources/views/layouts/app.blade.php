@@ -7,13 +7,15 @@
     <meta name="theme-color" content="#0e1c34">
     <title>@yield('title', 'Court schedule') · Court desk</title>
     <link rel="preload" href="{{ asset('fonts/instrument-sans.ttf') }}" as="font" type="font/ttf" crossorigin>
-    <link rel="stylesheet" href="{{ asset('css/desk.css') }}?v=4">
+    <link rel="stylesheet" href="{{ asset('css/desk.css') }}?v=5">
     <script src="{{ asset('js/desk.js') }}?v=2" defer></script>
 </head>
 <body>
-@php($coachMode = request()->routeIs('coach.*'))
-@php($hasVenueAccess = auth()->user()->is_super_admin || auth()->user()->businesses()->exists())
-@php($workspaceBusiness = $business ?? (isset($booking) ? $booking->business : null))
+@php
+    $coachMode = request()->routeIs('coach.*');
+    $hasVenueAccess = auth()->user()->is_super_admin || auth()->user()->businesses()->exists();
+    $workspaceBusiness = $business ?? (isset($booking) ? $booking->business : null);
+@endphp
 <a class="skip" href="#main">Skip to content</a>
 <div class="app-frame">
     <aside class="sidebar" id="workspace-nav">
@@ -21,18 +23,42 @@
         <button type="button" class="icon-button mobile-menu" aria-label="Toggle navigation" aria-controls="workspace-menu" aria-expanded="false" data-menu-toggle><x-icon name="menu" /></button>
         <div class="sidebar-content" id="workspace-menu">
             <div class="workspace-label"><span class="workspace-symbol"><x-icon name="courts" /></span><span>{{ $coachMode ? 'Coach workspace' : 'Venue workspace' }}<small>{{ auth()->user()->is_super_admin ? 'Platform administrator' : ($coachMode ? 'Lessons & availability' : 'Business operations') }}</small></span></div>
-            <p class="nav-caption">Workspace</p>
+            @php
+                $coachTab = request()->routeIs('coach.students.*') ? 'students' : request('tab', 'lessons');
+                $navItems = fn (array $items): array => array_filter($items);
+                $navGroups = [
+                'Operations' => $navItems([
+                    $hasVenueAccess ? ['Court schedule', 'calendar', route('dashboard', $workspaceBusiness ? ['business' => $workspaceBusiness->id] : []), request()->routeIs('dashboard', 'bookings.*', 'disruptions.*')] : null,
+                    $workspaceBusiness && auth()->user()->canManageBusiness($workspaceBusiness->id) ? ['Venue setup', 'settings', route('venues.edit', $workspaceBusiness), request()->routeIs('venues.*', 'courts.*', 'closures.*')] : null,
+                    $workspaceBusiness && auth()->user()->canManageBusiness($workspaceBusiness->id) ? ['Venue coaches', 'users', route('affiliations.index', $workspaceBusiness), request()->routeIs('affiliations.*')] : null,
+                ]),
+                'Coaching' => $navItems($coachMode ? [
+                    ['Lessons', 'calendar', route('coach.portal'), request()->routeIs('coach.portal', 'coach.lessons.*') && $coachTab === 'lessons'],
+                    ['Students', 'users', route('coach.students.index'), request()->routeIs('coach.students.*')],
+                    ['Profile & hours', 'settings', route('coach.portal', ['tab' => 'profile']), request()->routeIs('coach.portal') && in_array($coachTab, ['profile', 'availability', 'venues', 'time-off'], true)],
+                    ['Public preview', 'eye', route('coach.preview'), request()->routeIs('coach.preview')],
+                ] : [
+                    auth()->user()->coach()->exists() ? ['Coach workspace', 'users', route('coach.portal'), false] : null,
+                ]),
+                'Platform' => $navItems(auth()->user()->is_super_admin ? [
+                    ['Businesses', 'building', route('businesses.index'), request()->routeIs('businesses.*')],
+                    ['Coach approvals', 'shield', route('coaches.approvals'), request()->routeIs('coaches.approvals*')],
+                    ['Booking fee', 'coin', route('fees.edit'), request()->routeIs('fees.*')],
+                ] : []),
+                ];
+                if ($coachMode) {
+                    $navGroups = ['Coaching' => $navGroups['Coaching'], 'Operations' => $navGroups['Operations'], 'Platform' => $navGroups['Platform']];
+                }
+            @endphp
             <nav aria-label="Workspace">
-                @if($hasVenueAccess)<a class="nav-link {{ request()->routeIs('dashboard','bookings.*','disruptions.*') ? 'current' : '' }}" @if(request()->routeIs('dashboard','bookings.*','disruptions.*')) aria-current="page" @endif href="{{ route('dashboard', $workspaceBusiness ? ['business' => $workspaceBusiness->id] : []) }}"><x-icon name="calendar" />Court schedule</a>@endif
-                @if($coachMode || auth()->user()->coach()->exists())<a class="nav-link {{ $coachMode ? 'current' : '' }}" @if($coachMode) aria-current="page" @endif href="{{ route('coach.portal') }}"><x-icon name="calendar" />Coach workspace</a>@endif
-                @if($workspaceBusiness && auth()->user()->canManageBusiness($workspaceBusiness->id))
-                    <a class="nav-link {{ request()->routeIs('venues.*','courts.*','closures.*') ? 'current' : '' }}" @if(request()->routeIs('venues.*','courts.*','closures.*')) aria-current="page" @endif href="{{ route('venues.edit', $workspaceBusiness) }}"><x-icon name="courts" />Venue setup</a><a class="nav-link {{ request()->routeIs('affiliations.*') ? 'current' : '' }}" href="{{ route('affiliations.index',$workspaceBusiness) }}"><x-icon name="courts" />Venue coaches</a>
-                @endif
-                @if(auth()->user()->is_super_admin)
-                    <a class="nav-link {{ request()->routeIs('coaches.approvals*') ? 'current' : '' }}" href="{{ route('coaches.approvals') }}"><x-icon name="shield" />Coach approvals</a>
-                    <a class="nav-link {{ request()->routeIs('businesses.*') ? 'current' : '' }}" href="{{ route('businesses.index') }}"><x-icon name="grid" />Businesses</a>
-                    <a class="nav-link {{ request()->routeIs('fees.*') ? 'current' : '' }}" @if(request()->routeIs('fees.*')) aria-current="page" @endif href="{{ route('fees.edit') }}"><x-icon name="settings" />Booking fee</a>
-                @endif
+                @foreach($navGroups as $groupLabel => $items)
+                    @if(count($items))
+                        <p class="nav-caption">{{ $groupLabel }}</p>
+                        @foreach($items as [$label, $icon, $href, $isCurrent])
+                            <a class="nav-link {{ $isCurrent ? 'current' : '' }}" @if($isCurrent) aria-current="page" @endif href="{{ $href }}"><x-icon :name="$icon" />{{ $label }}</a>
+                        @endforeach
+                    @endif
+                @endforeach
             </nav>
             <div class="sidebar-note"><x-icon name="shield" /><strong>{{ $coachMode ? 'Room to help players grow.' : 'A space for your business.' }}</strong><p>{{ $coachMode ? 'Your lessons, availability and private coaching notes, together.' : 'Your courts, bookings and payment records stay within your workspace.' }}</p></div>
             <div class="sidebar-foot"><span class="avatar">{{ mb_substr(auth()->user()->name,0,1) }}</span><div><strong>{{ auth()->user()->name }}</strong><small>{{ auth()->user()->is_super_admin ? 'Super admin' : ($coachMode ? 'Coach' : 'Venue team') }}</small></div><form method="post" action="{{ route('logout') }}">@csrf<button class="icon-button" aria-label="Sign out"><x-icon name="logout" /></button></form></div>
