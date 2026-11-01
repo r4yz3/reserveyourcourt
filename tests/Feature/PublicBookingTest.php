@@ -33,6 +33,31 @@ class PublicBookingTest extends TestCase
         return array_replace(['court_id' => $court->id, 'starts_at' => '2026-11-02T09:00', 'duration' => 60, 'customer_name' => 'Test Guest', 'customer_contact' => '09171234567', 'accept_terms' => '1', 'request_key' => (string) Str::uuid()], $overrides);
     }
 
+    public function test_home_page_links_to_every_way_to_play_and_counts_courts_correctly(): void
+    {
+        [$business] = $this->venue();
+
+        $this->get(route('home'))->assertOk()
+            ->assertSee($business->city.' · 1 court')
+            ->assertDontSee('1 courts')
+            ->assertSee('How booking works')
+            ->assertSee('href="'.route('open-play.index').'"', false)
+            ->assertSee('href="'.route('public.coaches.index').'"', false)
+            ->assertSee('href="'.route('clubs.index').'"', false);
+    }
+
+    public function test_mobile_tab_bar_marks_the_current_section_and_follows_sign_in_state(): void
+    {
+        $this->get(route('clubs.index'))->assertOk()
+            ->assertSee('class="mobile-tab-bar"', false)
+            ->assertSee('<a href="'.route('clubs.index').'"  aria-current="page" >', false)
+            ->assertSee('<a href="'.route('login').'" ><span class="mobile-tab-icon">', false);
+
+        $this->actingAs(User::factory()->create())->get(route('home'))->assertOk()
+            ->assertSee('<a href="'.route('public.venues.index').'"  aria-current="page" >', false)
+            ->assertSee('<a href="'.route('play.dashboard').'" ><span class="mobile-tab-icon">', false);
+    }
+
     public function test_discovery_only_shows_approved_real_venues_with_active_courts(): void
     {
         [$visible] = $this->venue();

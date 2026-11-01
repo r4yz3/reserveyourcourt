@@ -3318,3 +3318,25 @@ textarea:focus-visible {
 .status::first-letter {
     text-transform: uppercase;
 }
+
+.login-page .button {
+    font-size: 14px;
+}
+@media (max-width: 760px) {
+    .login-page .button {
+        min-height: 48px;
+        font-size: 15px;
+    }
+    .login-page .text-link {
+        min-height: 44px;
+        font-size: 14px;
+    }
+    .login-links {
+        display: flex;
+        flex-wrap: wrap;
+        column-gap: 20px;
+    }
+    .login-links > span {
+        display: none;
+    }
+}

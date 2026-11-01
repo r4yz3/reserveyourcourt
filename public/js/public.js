@@ -1,3 +1,4 @@
+document.addEventListener("touchstart", () => {}, { passive: true });
 const bookingForm = document.querySelector("[data-public-booking]");
 if (bookingForm) {
     const formatMoney = (value) =>

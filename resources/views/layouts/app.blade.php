@@ -7,7 +7,7 @@
     <meta name="theme-color" content="#0e1c34">
     <title>@yield('title', 'Court schedule') · Court desk</title>
     <link rel="preload" href="{{ asset('fonts/instrument-sans.ttf') }}" as="font" type="font/ttf" crossorigin>
-    <link rel="stylesheet" href="{{ asset('css/desk.css') }}?v=6">
+    <link rel="stylesheet" href="{{ asset('css/desk.css') }}?v=8">
     <script src="{{ asset('js/desk.js') }}?v=2" defer></script>
 </head>
 <body>
