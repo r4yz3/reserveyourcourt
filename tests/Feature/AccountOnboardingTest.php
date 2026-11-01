@@ -29,6 +29,17 @@ class AccountOnboardingTest extends TestCase
         $this->assertSame('play.dashboard', $user->homeRoute());
     }
 
+    public function test_sign_up_passwords_need_at_least_8_characters_with_letters_and_numbers(): void
+    {
+        foreach (['abcdef1', 'abcdefgh', '12345678'] as $rejected) {
+            $this->post(route('register.store'), ['password' => $rejected, 'password_confirmation' => $rejected] + $this->signUpDetails())->assertSessionHasErrors('password');
+        }
+        $this->assertDatabaseCount('users', 0);
+
+        $this->post(route('register.store'), ['password' => 'abcdefg1', 'password_confirmation' => 'abcdefg1'] + $this->signUpDetails())->assertSessionHasNoErrors();
+        $this->assertDatabaseCount('users', 1);
+    }
+
     public function test_the_old_player_sign_up_address_redirects_to_the_single_form(): void
     {
         $this->get('/play/register')->assertRedirect('/register');

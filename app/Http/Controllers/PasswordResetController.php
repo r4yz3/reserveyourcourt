@@ -39,7 +39,7 @@ class PasswordResetController extends Controller
     public function update(Request $request): RedirectResponse
     {
         $this->normalizeEmail($request);
-        $data = $request->validate(['token' => ['required', 'string'], 'email' => ['required', 'email', 'max:255'], 'password' => ['required', 'confirmed', PasswordRule::min(12)->letters()->numbers()]]);
+        $data = $request->validate(['token' => ['required', 'string'], 'email' => ['required', 'email', 'max:255'], 'password' => ['required', 'confirmed', PasswordRule::min(8)->letters()->numbers()]]);
 
         $status = Password::reset($data, function (User $user, string $password): void {
             $user->forceFill(['password' => $password])->setRememberToken(Str::random(60));

@@ -23,7 +23,7 @@ class PlayerAccountController extends Controller
         if (is_string($request->input('email'))) {
             $request->merge(['email' => strtolower(trim($request->input('email')))]);
         }
-        $data = $request->validate(['name' => ['required', 'string', 'max:120'], 'email' => ['required', 'email', 'max:255', 'unique:users,email'], 'password' => ['required', 'confirmed', Password::min(12)->letters()->numbers()]]);
+        $data = $request->validate(['name' => ['required', 'string', 'max:120'], 'email' => ['required', 'email', 'max:255', 'unique:users,email'], 'password' => ['required', 'confirmed', Password::min(8)->letters()->numbers()]]);
         $user = User::query()->create($data);
         Auth::login($user);
         $request->session()->regenerate();

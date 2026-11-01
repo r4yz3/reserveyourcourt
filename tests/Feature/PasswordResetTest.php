@@ -102,6 +102,15 @@ class PasswordResetTest extends TestCase
         $this->assertSame($original, $user->fresh()->password);
     }
 
+    public function test_an_8_character_password_is_accepted(): void
+    {
+        $user = User::factory()->create();
+
+        $this->post(route('password.update'), $this->resetDetails($user, Password::createToken($user), ['password' => 'abcdefg1', 'password_confirmation' => 'abcdefg1']))->assertSessionHasNoErrors();
+
+        $this->assertTrue(Hash::check('abcdefg1', $user->fresh()->password));
+    }
+
     public function test_signed_in_users_are_sent_away_from_the_reset_pages(): void
     {
         $this->actingAs(User::factory()->create())->get(route('password.request'))->assertRedirect();

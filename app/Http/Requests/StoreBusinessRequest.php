@@ -25,7 +25,7 @@ class StoreBusinessRequest extends FormRequest
             'address' => ['nullable', 'string', 'max:255'], 'owner_mode' => ['required', 'in:existing,new'],
             'owner_email' => ['required', 'email', 'max:255', $this->input('owner_mode') === 'new' ? Rule::unique('users', 'email') : Rule::exists('users', 'email')],
             'owner_name' => ['exclude_unless:owner_mode,new', 'required', 'string', 'max:120'],
-            'password' => ['exclude_unless:owner_mode,new', 'required', 'confirmed', 'max:72', Password::min(12)->letters()->numbers()],
+            'password' => ['exclude_unless:owner_mode,new', 'required', 'confirmed', 'max:72', Password::min(8)->letters()->numbers()],
         ];
     }
 }
