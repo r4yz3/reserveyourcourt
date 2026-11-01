@@ -109,10 +109,10 @@ class PlayerAreaTest extends TestCase
     public function test_profile_updates_only_allowed_fields(): void
     {
         $player = User::factory()->create();
-        $this->actingAs($player)->put(route('play.profile.update'), ['name' => 'Test Renamed', 'skill_level' => '3.5', 'home_city' => 'Test City', 'is_super_admin' => true])->assertRedirect(route('play.profile'));
+        $this->actingAs($player)->put(route('play.profile.update'), ['name' => 'Test Renamed', 'self_rating' => '3.5', 'home_city' => 'Test City', 'is_super_admin' => true])->assertRedirect(route('play.profile'));
         $player->refresh();
-        $this->assertSame(['Test Renamed', '3.5', 'Test City', false], [$player->name, $player->skill_level, $player->home_city, $player->is_super_admin]);
-        $this->actingAs($player)->put(route('play.profile.update'), ['name' => 'Test Renamed', 'skill_level' => '9.9'])->assertSessionHasErrors('skill_level');
+        $this->assertSame(['Test Renamed', '3.50', 'Test City', false], [$player->name, $player->self_rating, $player->home_city, $player->is_super_admin]);
+        $this->actingAs($player)->put(route('play.profile.update'), ['name' => 'Test Renamed', 'self_rating' => '9.9'])->assertSessionHasErrors('self_rating');
     }
 
     public function test_a_confirmed_result_counts_for_both_players(): void
