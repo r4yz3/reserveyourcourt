@@ -21,7 +21,7 @@ class GuestReservationController extends Controller
         if (! $request->session()->has('player_key')) {
             $request->session()->put('player_key', Str::random(64));
         }
-        $booking = $create->handleGuest($court, $request->validated(), $request->session()->get('player_key'));
+        $booking = $create->handleGuest($court, $request->validated() + ['player_id' => $request->user()?->id], $request->session()->get('player_key'));
 
         return redirect()->route('public.reservations.show', ['reference' => $booking->reference]);
     }
@@ -46,6 +46,9 @@ class GuestReservationController extends Controller
     private function authorizedBooking(Request $request, string $reference): Booking
     {
         $booking = Booking::query()->where('reference', $reference)->firstOrFail();
+        if ($booking->player_id !== null && $request->user()?->id === $booking->player_id) {
+            return $booking;
+        }
         $key = $request->session()->get('player_key');
         abort_unless(is_string($key) && is_string($booking->guest_key_hash) && hash_equals($booking->guest_key_hash, hash('sha256', $key)), 404);
 

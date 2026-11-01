@@ -55,3 +55,20 @@ window.addEventListener("pageshow", () => {
         delete button.dataset.label;
     });
 });
+document.querySelectorAll("[data-score-form]").forEach((form) => {
+    const sync = () => {
+        const isDoubles =
+            form.querySelector("[data-format-input]:checked")?.value ===
+            "doubles";
+        form.querySelectorAll("[data-doubles-only]").forEach((group) => {
+            group.hidden = !isDoubles;
+            group
+                .querySelectorAll('input[name$="_name"]')
+                .forEach((input) => (input.required = isDoubles));
+        });
+    };
+    form.querySelectorAll("[data-format-input]").forEach((input) =>
+        input.addEventListener("change", sync),
+    );
+    sync();
+});

@@ -68,7 +68,7 @@ class PublicCoachController extends Controller
         if (! $request->session()->has('player_key')) {
             $request->session()->put('player_key', Str::random(64));
         }
-        $booking = $create->handleGuestLesson($court, $coach, $request->validated(), $request->session()->get('player_key'));
+        $booking = $create->handleGuestLesson($court, $coach, $request->validated() + ['player_id' => $request->user()?->id], $request->session()->get('player_key'));
 
         return redirect()->route('public.reservations.show', $booking->reference);
     }

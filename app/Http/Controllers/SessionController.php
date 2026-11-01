@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\ClaimGuestBookings;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,17 +17,16 @@ class SessionController extends Controller
         return view('auth.login');
     }
 
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(LoginRequest $request, ClaimGuestBookings $claimGuestBookings): RedirectResponse
     {
         if (! Auth::attempt($request->validated())) {
             throw ValidationException::withMessages(['email' => 'These login details do not match an account.']);
         }
         $request->session()->regenerate();
 
-        $user = $request->user();
-        $destination = ! $user->is_super_admin && ! $user->businesses()->exists() && $user->coach()->exists() ? 'coach.portal' : 'dashboard';
+        $claimGuestBookings->handle($request->user(), $request->session()->get('player_key'));
 
-        return redirect()->intended(route($destination));
+        return redirect()->intended(route($request->user()->homeRoute()));
     }
 
     public function destroy(Request $request): RedirectResponse

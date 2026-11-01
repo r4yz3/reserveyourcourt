@@ -136,7 +136,7 @@ class BookingPlatformTest extends TestCase
     {
         $user = User::factory()->create(['password' => 'TestCourtPassword!']);
 
-        $this->post(route('login.store'), ['email' => $user->email, 'password' => 'TestCourtPassword!'])->assertRedirect(route('dashboard'));
+        $this->post(route('login.store'), ['email' => $user->email, 'password' => 'TestCourtPassword!'])->assertRedirect(route('play.dashboard'));
         $this->assertAuthenticatedAs($user);
         $this->post(route('logout'))->assertRedirect(route('login'));
         $this->assertGuest();

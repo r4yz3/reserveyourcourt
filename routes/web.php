@@ -15,6 +15,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FeeSettingController;
 use App\Http\Controllers\GuestReservationController;
 use App\Http\Controllers\PaymentProofController;
+use App\Http\Controllers\PlayerAccountController;
+use App\Http\Controllers\PlayerDashboardController;
+use App\Http\Controllers\PlayerMatchController;
 use App\Http\Controllers\PublicCoachController;
 use App\Http\Controllers\PublicVenueController;
 use App\Http\Controllers\SessionController;
@@ -35,10 +38,21 @@ Route::post('/reservations/{reference}/receipt', [GuestReservationController::cl
 Route::middleware('guest')->group(function (): void {
     Route::get('/coach/register', [CoachAccountController::class, 'create'])->name('coach.register');
     Route::post('/coach/register', [CoachAccountController::class, 'store'])->middleware('throttle:5,30')->name('coach.register.store');
+    Route::get('/play/register', [PlayerAccountController::class, 'create'])->name('play.register');
+    Route::post('/play/register', [PlayerAccountController::class, 'store'])->middleware('throttle:5,30')->name('play.register.store');
     Route::get('/login', [SessionController::class, 'create'])->name('login');
     Route::post('/login', [SessionController::class, 'store'])->middleware('throttle:5,1')->name('login.store');
 });
 Route::middleware('auth')->group(function (): void {
+    Route::get('/play', [PlayerDashboardController::class, 'index'])->name('play.dashboard');
+    Route::get('/play/bookings', [PlayerDashboardController::class, 'bookings'])->name('play.bookings');
+    Route::get('/play/profile', [PlayerDashboardController::class, 'profile'])->name('play.profile');
+    Route::put('/play/profile', [PlayerDashboardController::class, 'updateProfile'])->name('play.profile.update');
+    Route::get('/play/scores', [PlayerMatchController::class, 'index'])->name('play.scores.index');
+    Route::get('/play/scores/new', [PlayerMatchController::class, 'create'])->name('play.scores.create');
+    Route::post('/play/scores', [PlayerMatchController::class, 'store'])->middleware('throttle:20,1')->name('play.scores.store');
+    Route::patch('/play/scores/{match}', [PlayerMatchController::class, 'review'])->name('play.scores.review');
+    Route::delete('/play/scores/{match}', [PlayerMatchController::class, 'destroy'])->name('play.scores.destroy');
     Route::get('/coach/students', [CoachStudentController::class, 'index'])->name('coach.students.index');
     Route::get('/coach/students/{booking}', [CoachStudentController::class, 'show'])->name('coach.students.show');
     Route::get('/coach/preview', [PublicCoachController::class, 'preview'])->name('coach.preview');

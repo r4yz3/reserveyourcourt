@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['reference', 'business_id', 'court_id', 'created_by', 'customer_name', 'customer_contact', 'starts_at', 'ends_at', 'source', 'status', 'payment_method', 'total_centavos', 'paid_centavos', 'commission_centavos', 'fee_setting_id', 'request_key', 'hold_expires_at', 'notes', 'guest_key_hash', 'reschedule_version', 'coach_id', 'coaching_centavos', 'lesson_attendance', 'coach_notes'])]
+#[Fillable(['reference', 'business_id', 'court_id', 'created_by', 'customer_name', 'customer_contact', 'starts_at', 'ends_at', 'source', 'status', 'payment_method', 'total_centavos', 'paid_centavos', 'commission_centavos', 'fee_setting_id', 'request_key', 'hold_expires_at', 'notes', 'guest_key_hash', 'reschedule_version', 'coach_id', 'coaching_centavos', 'lesson_attendance', 'coach_notes', 'player_id'])]
 #[Hidden(['guest_key_hash', 'reschedule_version', 'coach_notes'])]
 class Booking extends Model
 {
@@ -23,6 +23,11 @@ class Booking extends Model
     public function coach(): BelongsTo
     {
         return $this->belongsTo(Coach::class);
+    }
+
+    public function player(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'player_id');
     }
 
     public function court(): BelongsTo
