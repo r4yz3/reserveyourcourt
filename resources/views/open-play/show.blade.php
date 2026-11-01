@@ -15,7 +15,7 @@
         <div>
             <div class="event-badges">
                 @if($openPlay->status === 'draft')<span class="status draft">Draft · only you can see this</span>@elseif($openPlay->status === 'cancelled')<span class="status cancelled">Cancelled</span>@endif
-                <span class="event-chip">{{ $openPlay->privacy === 'private' ? 'Private · invite link' : 'Public' }}</span>
+                <span class="event-chip">{{ ['private' => 'Private · invite link', 'club' => 'Club members only'][$openPlay->privacy] ?? 'Public' }}</span>@if($openPlay->club)<a class="event-chip" href="{{ route('clubs.show', $openPlay->club) }}">{{ $openPlay->club->name }}</a>@endif
             </div>
             <h1>{{ $openPlay->title }}</h1>
             <p class="event-when"><x-icon name="calendar" size="16" />{{ $start->format('l, j F Y') }} · {{ $start->format('g:i A') }}–{{ $openPlay->ends_at->setTimezone('Asia/Manila')->format('g:i A') }}</p>

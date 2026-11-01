@@ -7,7 +7,7 @@
     $duration = $openPlay->exists ? (int) $openPlay->starts_at->diffInMinutes($openPlay->ends_at) : 120;
     $steps = ['basics' => ['Basics', 'list'], 'where' => ['When & where', 'calendar'], 'rules' => ['Capacity & rules', 'settings'], 'fee' => ['Event fee', 'coin']];
     $stepErrors = [
-        'basics' => ['title', 'description', 'privacy', 'passkey'],
+        'basics' => ['title', 'description', 'privacy', 'passkey', 'club_id'],
         'where' => ['date', 'start_time', 'duration', 'business_id', 'location'],
         'rules' => ['capacity', 'format', 'gender_rule', 'min_rating', 'max_rating'],
         'fee' => ['fee', 'payment_note'],
@@ -36,11 +36,21 @@
             @error('title')<p class="field-error">{{ $message }}</p>@enderror
             <label for="description">Description <span class="muted">(optional)</span></label>
             <textarea id="description" name="description" rows="5" maxlength="2000" placeholder="Skill notes, ball type, what to bring, parking…">{{ old('description', $openPlay->description) }}</textarea>
-            <fieldset class="privacy-options">
+            @php($selectedClub = (int) old('club_id', $openPlay->club_id))
+            <label for="club_id">Club <span class="muted">(optional)</span></label>
+            <select id="club_id" name="club_id" data-club-select @error('club_id') aria-invalid="true" @enderror>
+                <option value="">No club — host as myself</option>
+                @foreach($clubs as $club)<option value="{{ $club->id }}" @selected($selectedClub === $club->id)>{{ $club->name }}</option>@endforeach
+            </select>
+            <small>{{ $clubs->isEmpty() ? 'Clubs you own or moderate appear here.' : 'Hosting for a club lists the session on the club page.' }}</small>
+            @error('club_id')<p class="field-error">{{ $message }}</p>@enderror
+            <fieldset class="privacy-options three">
                 <legend>Privacy</legend>
                 <label class="privacy-option"><input type="radio" name="privacy" value="public" @checked($privacy === 'public') data-privacy-input><span><x-icon name="eye" size="18" /><strong>Public</strong><small>Listed in open play discovery. Any signed-in player can join.</small></span></label>
                 <label class="privacy-option"><input type="radio" name="privacy" value="private" @checked($privacy === 'private') data-privacy-input><span><x-icon name="shield" size="18" /><strong>Private</strong><small>Unlisted. Only people with your invite link can see it, with an optional passkey to join.</small></span></label>
+                <label class="privacy-option"><input type="radio" name="privacy" value="club" @checked($privacy === 'club') @disabled(! $selectedClub) data-privacy-input data-club-only><span><x-icon name="users" size="18" /><strong>Club only</strong><small>Members of the selected club only. Shown on the club page, not in discovery.</small></span></label>
             </fieldset>
+            <small data-club-hint @if($selectedClub) hidden @endif>Select a club above to enable club-only open play.</small>
             <div class="passkey-field" data-private-only @if($privacy !== 'private') hidden @endif>
                 <label for="passkey">Passkey <span class="muted">(optional)</span></label>
                 <input id="passkey" name="passkey" maxlength="32" autocomplete="off" placeholder="{{ $openPlay->passkey_hash ? 'Leave blank to keep the current passkey' : 'At least 4 characters' }}" @error('passkey') aria-invalid="true" @enderror>

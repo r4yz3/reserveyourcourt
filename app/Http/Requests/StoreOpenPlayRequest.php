@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Business;
+use App\Models\Club;
 use App\Models\OpenPlay;
 use Carbon\CarbonImmutable;
 use Illuminate\Foundation\Http\FormRequest;
@@ -22,7 +23,8 @@ class StoreOpenPlayRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:120'],
             'description' => ['nullable', 'string', 'max:2000'],
-            'privacy' => ['required', 'in:public,private'],
+            'privacy' => ['required', 'in:public,private,club'],
+            'club_id' => ['nullable', 'required_if:privacy,club', 'integer'],
             'passkey' => ['nullable', 'string', 'min:4', 'max:32'],
             'remove_passkey' => ['nullable', 'boolean'],
             'business_id' => ['nullable', 'integer'],
@@ -47,6 +49,7 @@ class StoreOpenPlayRequest extends FormRequest
             'location.required_without' => 'Choose a listed venue or enter where you will play.',
             'max_rating.gte' => 'The highest rating must be at or above the lowest rating.',
             'duration.in' => 'Choose a supported duration.',
+            'club_id.required_if' => 'Choose a club for a club-only open play.',
         ];
     }
 
@@ -58,6 +61,9 @@ class StoreOpenPlayRequest extends FormRequest
             }
             if ($this->filled('business_id') && ! Business::query()->whereKey($this->integer('business_id'))->where('status', 'approved')->where('is_demo', false)->exists()) {
                 $validator->errors()->add('business_id', 'Choose a listed venue.');
+            }
+            if ($this->filled('club_id') && ! Club::query()->find($this->integer('club_id'))?->isManager($this->user())) {
+                $validator->errors()->add('club_id', 'You can only host open play for clubs you own or moderate.');
             }
             if ($this->input('intent') === 'publish' && $this->startsAt()->isPast()) {
                 $validator->errors()->add('date', 'Choose a future start time before publishing.');
@@ -87,6 +93,7 @@ class StoreOpenPlayRequest extends FormRequest
             'title' => $this->input('title'),
             'description' => $this->input('description'),
             'privacy' => $this->input('privacy'),
+            'club_id' => $this->filled('club_id') ? $this->integer('club_id') : null,
             'business_id' => $this->filled('business_id') ? $this->integer('business_id') : null,
             'location' => $this->filled('business_id') ? null : $this->input('location'),
             'starts_at' => $startsAt->utc(),

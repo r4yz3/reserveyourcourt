@@ -32,6 +32,11 @@ class User extends Authenticatable
         return $this->hasMany(OpenPlay::class, 'host_id');
     }
 
+    public function clubMemberships(): HasMany
+    {
+        return $this->hasMany(ClubMember::class);
+    }
+
     public function openPlayEntries(): HasMany
     {
         return $this->hasMany(OpenPlayParticipant::class);

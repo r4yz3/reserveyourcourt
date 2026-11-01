@@ -199,3 +199,27 @@ document.querySelectorAll("[data-wizard]").forEach((form) => {
     venue.addEventListener("change", syncVenue);
     syncVenue();
 });
+document.querySelectorAll("[data-club-select]").forEach((select) => {
+    const form = select.form;
+    const clubOnly = form.querySelector("[data-club-only]");
+    const hint = form.querySelector("[data-club-hint]");
+    const sync = () => {
+        const hasClub = select.value !== "";
+        clubOnly.disabled = !hasClub;
+        hint.hidden = hasClub;
+        if (!hasClub && clubOnly.checked) {
+            form.querySelector('[data-privacy-input][value="public"]').checked = true;
+            form.querySelector("[data-private-only]").hidden = true;
+        }
+    };
+    select.addEventListener("change", sync);
+    sync();
+});
+
+document.querySelectorAll("[data-share-url]").forEach((button) => {
+    if (!navigator.share) return;
+    button.hidden = false;
+    button.addEventListener("click", () =>
+        navigator.share({ title: button.dataset.shareTitle, url: button.dataset.shareUrl }).catch(() => {}),
+    );
+});

@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['host_id', 'business_id', 'title', 'description', 'privacy', 'invite_token', 'passkey_hash', 'location', 'starts_at', 'ends_at', 'capacity', 'format', 'min_rating', 'max_rating', 'gender_rule', 'fee_centavos', 'payment_note', 'status'])]
+#[Fillable(['host_id', 'club_id', 'business_id', 'title', 'description', 'privacy', 'invite_token', 'passkey_hash', 'location', 'starts_at', 'ends_at', 'capacity', 'format', 'min_rating', 'max_rating', 'gender_rule', 'fee_centavos', 'payment_note', 'status'])]
 #[Hidden(['invite_token', 'passkey_hash'])]
 class OpenPlay extends Model
 {
@@ -25,6 +25,11 @@ class OpenPlay extends Model
     public function host(): BelongsTo
     {
         return $this->belongsTo(User::class, 'host_id');
+    }
+
+    public function club(): BelongsTo
+    {
+        return $this->belongsTo(Club::class);
     }
 
     public function business(): BelongsTo

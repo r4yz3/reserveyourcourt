@@ -35,7 +35,7 @@ class OpenPlayController extends Controller
         $user = $request->user();
         $invite = $request->query('invite');
         abort_unless($this->canView($openPlay, $user, is_string($invite) ? $invite : null), 404);
-        $openPlay->load(['business', 'host', 'participants' => fn ($query) => $query->whereIn('status', ['joined', 'waitlisted'])->with('user')]);
+        $openPlay->load(['business', 'club', 'host', 'participants' => fn ($query) => $query->whereIn('status', ['joined', 'waitlisted'])->with('user')]);
         if (! $user) {
             $request->session()->put('url.intended', $request->fullUrl());
         }
@@ -87,6 +87,10 @@ class OpenPlayController extends Controller
         }
         if ($openPlay->status !== 'published') {
             return false;
+        }
+
+        if ($openPlay->privacy === 'club') {
+            return $openPlay->club?->isMember($user) ?? false;
         }
 
         return $openPlay->privacy === 'public' || ($invite !== null && hash_equals($openPlay->invite_token, $invite));

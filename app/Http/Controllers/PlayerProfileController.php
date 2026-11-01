@@ -102,6 +102,7 @@ class PlayerProfileController extends Controller
             'showLocation' => $isOwner || $user->show_location,
             'record' => $stats->handle($user, $matches),
             'played' => $played,
+            'clubs' => $user->clubMemberships()->where('status', 'active')->whereHas('club', fn (Builder $club) => $club->where('is_public', true))->count(),
             'organized' => $user->hostedOpenPlays()->where('status', 'published')->count(),
             'activity' => $isOwner || $user->show_activity ? $activity : collect(),
         ]);

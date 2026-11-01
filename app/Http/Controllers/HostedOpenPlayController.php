@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOpenPlayRequest;
 use App\Models\Business;
+use App\Models\Club;
 use App\Models\OpenPlay;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
@@ -31,9 +32,12 @@ class HostedOpenPlayController extends Controller
         ]);
     }
 
-    public function create(): View
+    public function create(Request $request): View
     {
-        return view('play.event-form', ['openPlay' => new OpenPlay(['privacy' => 'public', 'capacity' => 8, 'format' => 'doubles', 'gender_rule' => 'any']), 'venues' => $this->venues()]);
+        $clubs = $this->managedClubs($request);
+        $clubId = $clubs->firstWhere('id', $request->integer('club'))?->id;
+
+        return view('play.event-form', ['openPlay' => new OpenPlay(['privacy' => $clubId ? 'club' : 'public', 'club_id' => $clubId, 'capacity' => 8, 'format' => 'doubles', 'gender_rule' => 'any']), 'venues' => $this->venues(), 'clubs' => $clubs]);
     }
 
     public function store(StoreOpenPlayRequest $request): RedirectResponse
@@ -52,7 +56,7 @@ class HostedOpenPlayController extends Controller
         abort_unless($openPlay->host_id === $request->user()->id, 404);
         abort_if($openPlay->status === 'cancelled', 409, 'Cancelled open plays cannot be edited.');
 
-        return view('play.event-form', ['openPlay' => $openPlay, 'venues' => $this->venues()]);
+        return view('play.event-form', ['openPlay' => $openPlay, 'venues' => $this->venues(), 'clubs' => $this->managedClubs($request)]);
     }
 
     public function update(StoreOpenPlayRequest $request, OpenPlay $openPlay): RedirectResponse
@@ -77,6 +81,16 @@ class HostedOpenPlayController extends Controller
         $openPlay->update(['status' => 'cancelled']);
 
         return redirect()->route('play.events')->with('success', 'Open play cancelled. Joined players will see it as cancelled.');
+    }
+
+    /**
+     * Clubs the host owns or moderates; only these can be attached to an open play.
+     *
+     * @return Collection<int, Club>
+     */
+    private function managedClubs(Request $request)
+    {
+        return Club::query()->whereHas('memberships', fn (Builder $query) => $query->where('user_id', $request->user()->id)->where('status', 'active')->whereIn('role', ['owner', 'moderator']))->orderBy('name')->get(['id', 'name', 'logo_path', 'media_disk']);
     }
 
     /**

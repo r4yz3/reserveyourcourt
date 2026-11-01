@@ -20,6 +20,7 @@
             @endif
             @if($showStats)
                 <dl class="player-card-stats">
+                    <div><dt>Clubs</dt><dd>{{ $clubs }}</dd></div>
                     <div><dt>Played</dt><dd>{{ $played }}</dd></div>
                     <div><dt>Organized</dt><dd>{{ $organized }}</dd></div>
                     <div><dt>Record</dt><dd>{{ $record['wins'] }}–{{ $record['losses'] }}</dd></div>

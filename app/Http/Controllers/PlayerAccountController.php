@@ -28,6 +28,6 @@ class PlayerAccountController extends Controller
         $request->session()->regenerate();
         $claimed = $claimGuestBookings->handle($user, $request->session()->get('player_key'));
 
-        return redirect()->route('play.dashboard')->with('success', $claimed > 0 ? 'Welcome to the court. Bookings made in this browser are now saved to your account.' : 'Welcome to the court. Your games and scores will appear here.');
+        return redirect()->intended(route('play.dashboard'))->with('success', $claimed > 0 ? 'Welcome to the court. Bookings made in this browser are now saved to your account.' : 'Welcome to the court. Your games and scores will appear here.');
     }
 }
