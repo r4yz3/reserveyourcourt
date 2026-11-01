@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\ClaimGuestBookings;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +27,7 @@ class PlayerAccountController extends Controller
         $user = User::query()->create($data);
         Auth::login($user);
         $request->session()->regenerate();
+        rescue(fn () => event(new Registered($user)));
         $claimed = $claimGuestBookings->handle($user, $request->session()->get('player_key'));
 
         return redirect()->intended(route('play.dashboard'))->with('success', $claimed > 0 ? 'Welcome to the court. Bookings made in this browser are now saved to your account.' : 'Welcome to the court. Your games and scores will appear here.');

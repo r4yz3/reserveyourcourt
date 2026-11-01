@@ -20,7 +20,7 @@ class PlayerDashboardController extends Controller
         $matches = $this->matchesFor($user);
         $awaitingReview = $matches->filter(fn (PlayerMatch $match): bool => $match->canBeReviewedBy($user));
 
-        return view('play.dashboard', ['user' => $user, 'upcoming' => $upcoming, 'recentMatches' => $matches->take(4), 'awaitingReview' => $awaitingReview, 'stats' => $stats->handle($user, $matches)]);
+        return view('play.dashboard', ['user' => $user, 'upcoming' => $upcoming, 'recentMatches' => $matches->take(4), 'awaitingReview' => $awaitingReview, 'stats' => $stats->handle($user, $matches), 'hasCoachProfile' => $user->coach()->exists(), 'hasVenue' => $user->businesses()->exists()]);
     }
 
     public function bookings(Request $request): View

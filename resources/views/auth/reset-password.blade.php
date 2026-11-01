@@ -1,0 +1,5 @@
+@extends('layouts.public')
+@section('title','Choose a new password')
+@section('private','true')
+@section('error_heading','Please check your details.')
+@section('content')<div class="public-container coach-registration player-registration"><a class="back-link" href="{{ route('login') }}"><x-icon name="left" size="15" />Sign in</a><h1>Choose a new password.</h1><form class="panel" method="post" action="{{ route('password.update') }}">@csrf<input type="hidden" name="token" value="{{ $token }}"><label for="email">Email</label><input type="email" id="email" name="email" autocomplete="username" value="{{ old('email', $email) }}" required maxlength="255"><label for="password">New password</label><input type="password" id="password" name="password" autocomplete="new-password" minlength="12" required><p class="small muted">At least 12 characters, including letters and numbers.</p><label for="password_confirmation">Confirm new password</label><input type="password" id="password_confirmation" name="password_confirmation" autocomplete="new-password" required><div class="form-actions"><button class="button">Save new password</button></div></form></div>@endsection

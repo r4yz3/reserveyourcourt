@@ -13,7 +13,7 @@
             <form method="post" action="{{ route('clubs.invite.accept', $token) }}">@csrf<button class="button">Join club<x-icon name="arrow" size="16" /></button></form>
         @else
             <a class="button" href="{{ route('login') }}">Sign in to join</a>
-            <p class="small muted">New here? <a class="text-link" href="{{ route('play.register') }}">Create a free player account</a> and you'll come right back here.</p>
+            <p class="small muted">New here? <a class="text-link" href="{{ route('register') }}">Create a free account</a> and you'll come right back here.</p>
         @endauth
     </section>
 </div>

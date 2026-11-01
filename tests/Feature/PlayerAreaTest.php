@@ -44,7 +44,7 @@ class PlayerAreaTest extends TestCase
         $this->post(route('public.reservations.store', $business), $this->reservation($court))->assertSessionHasNoErrors();
         $other = Booking::factory()->create(['business_id' => $business->id, 'court_id' => $court->id, 'guest_key_hash' => hash('sha256', Str::random(64))]);
 
-        $this->post(route('play.register.store'), ['name' => 'Test Player', 'email' => 'Test.Player@Example.test', 'password' => 'TestPassword123', 'password_confirmation' => 'TestPassword123'])
+        $this->post(route('register.store'), ['name' => 'Test Player', 'email' => 'Test.Player@Example.test', 'password' => 'TestPassword123', 'password_confirmation' => 'TestPassword123'])
             ->assertRedirect(route('play.dashboard'));
 
         $player = User::query()->where('email', 'test.player@example.test')->sole();

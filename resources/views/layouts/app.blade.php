@@ -14,6 +14,7 @@
 @php
     $coachMode = request()->routeIs('coach.*');
     $hasVenueAccess = auth()->user()->is_super_admin || auth()->user()->businesses()->exists();
+    $hasCoachProfile = auth()->user()->coach()->exists();
     $workspaceBusiness = $business ?? (isset($booking) ? $booking->business : null);
 @endphp
 <a class="skip" href="#main">Skip to content</a>
@@ -32,22 +33,23 @@
                     $workspaceBusiness && auth()->user()->canManageBusiness($workspaceBusiness->id) ? ['Venue setup', 'settings', route('venues.edit', $workspaceBusiness), request()->routeIs('venues.*', 'courts.*', 'closures.*')] : null,
                     $workspaceBusiness && auth()->user()->canManageBusiness($workspaceBusiness->id) ? ['Venue coaches', 'users', route('affiliations.index', $workspaceBusiness), request()->routeIs('affiliations.*')] : null,
                 ]),
-                'Coaching' => $navItems($coachMode ? [
+                'Coaching' => $navItems($coachMode && $hasCoachProfile ? [
                     ['Lessons', 'calendar', route('coach.portal'), request()->routeIs('coach.portal', 'coach.lessons.*') && $coachTab === 'lessons'],
                     ['Students', 'users', route('coach.students.index'), request()->routeIs('coach.students.*')],
                     ['Profile & hours', 'settings', route('coach.portal', ['tab' => 'profile']), request()->routeIs('coach.portal') && in_array($coachTab, ['profile', 'availability', 'venues', 'time-off'], true)],
                     ['Public preview', 'eye', route('coach.preview'), request()->routeIs('coach.preview')],
                 ] : [
-                    auth()->user()->coach()->exists() ? ['Coach workspace', 'users', route('coach.portal'), false] : null,
+                    $hasCoachProfile ? ['Coach workspace', 'users', route('coach.portal'), false] : null,
                 ]),
                 'Platform' => $navItems(auth()->user()->is_super_admin ? [
                     ['Businesses', 'building', route('businesses.index'), request()->routeIs('businesses.*')],
                     ['Coach approvals', 'shield', route('coaches.approvals'), request()->routeIs('coaches.approvals*')],
                     ['Booking fee', 'coin', route('fees.edit'), request()->routeIs('fees.*')],
                 ] : []),
+                'Playing' => [['My games', 'user', route('play.dashboard'), false]],
                 ];
                 if ($coachMode) {
-                    $navGroups = ['Coaching' => $navGroups['Coaching'], 'Operations' => $navGroups['Operations'], 'Platform' => $navGroups['Platform']];
+                    $navGroups = ['Coaching' => $navGroups['Coaching'], 'Operations' => $navGroups['Operations'], 'Platform' => $navGroups['Platform'], 'Playing' => $navGroups['Playing']];
                 }
             @endphp
             <nav aria-label="Workspace">

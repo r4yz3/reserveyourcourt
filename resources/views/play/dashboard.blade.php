@@ -61,5 +61,13 @@
             @foreach($recentMatches as $match)<x-player-match :match="$match" :user="$user" :actions="false" />@endforeach
         </section>
     @endif
+
+    <section class="player-panel" aria-labelledby="account-options-heading">
+        <div class="section-heading"><h2 id="account-options-heading">More from your account</h2></div>
+        <div class="account-options">
+            <div class="account-option"><x-icon name="clipboard" size="22" /><h3>{{ $hasCoachProfile ? 'Your coaching' : 'Offer coaching' }}</h3><p class="small muted">{{ $hasCoachProfile ? 'Manage your lessons, hours and students.' : 'Set your hours and take private lessons at affiliated venues.' }}</p><a class="button secondary compact" href="{{ route('coach.portal') }}">{{ $hasCoachProfile ? 'Open coach workspace' : 'Become a coach' }}</a></div>
+            <div class="account-option"><x-icon name="building" size="22" /><h3>{{ $hasVenue ? 'Your venue' : 'List your venue' }}</h3><p class="small muted">{{ $hasVenue ? 'Manage your court schedule, bookings and venue setup.' : 'Take court bookings online. Your venue goes live after review.' }}</p><a class="button secondary compact" href="{{ $hasVenue ? route('dashboard') : route('venue.create') }}">{{ $hasVenue ? 'Open venue workspace' : 'Add your venue' }}</a></div>
+        </div>
+    </section>
 </div>
 @endsection

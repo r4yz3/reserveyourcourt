@@ -72,7 +72,7 @@
                     <p class="small muted">{{ $openPlay->status === 'cancelled' ? 'The host cancelled this open play.' : 'This open play has started or ended.' }}</p>
                 @elseif(! $user)
                     <a class="button full" href="{{ route('login') }}">Sign in to join</a>
-                    <p class="small muted">New here? <a class="text-link" href="{{ route('play.register') }}">Create a free player account</a>.</p>
+                    <p class="small muted">New here? <a class="text-link" href="{{ route('register') }}">Create a free account</a>.</p>
                 @elseif($entry && $entry->status !== 'left')
                     <p class="joined-state"><x-icon name="check" size="16" />{{ $entry->status === 'joined' ? 'You are in.' : 'You are on the waitlist.' }}</p>
                     <form method="post" action="{{ route('open-play.leave', $openPlay) }}">@csrf<input type="hidden" name="invite" value="{{ $invite }}"><button class="button secondary full">{{ $entry->status === 'joined' ? 'Leave open play' : 'Leave waitlist' }}</button></form>

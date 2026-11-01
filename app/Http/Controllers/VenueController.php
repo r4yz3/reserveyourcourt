@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCourtRequest;
+use App\Http\Requests\StoreVenueRequest;
 use App\Http\Requests\UpdateVenueRequest;
 use App\Models\AuditEvent;
 use App\Models\Business;
@@ -15,6 +16,27 @@ use Illuminate\View\View;
 
 class VenueController extends Controller
 {
+    public function create(): View
+    {
+        return view('venues.create');
+    }
+
+    /**
+     * Anyone signed in can start a venue. It stays a private draft until a platform admin approves it.
+     */
+    public function store(StoreVenueRequest $request): RedirectResponse
+    {
+        $business = DB::transaction(function () use ($request): Business {
+            $business = Business::query()->create($request->validated() + ['status' => 'draft']);
+            $business->users()->attach($request->user()->id, ['role' => 'owner']);
+            AuditEvent::query()->create(['user_id' => $request->user()->id, 'business_id' => $business->id, 'action' => 'business.created', 'details' => ['owner_id' => $request->user()->id, 'owner_mode' => 'self_serve']]);
+
+            return $business;
+        });
+
+        return redirect()->route('venues.edit', $business)->with('success', 'Your draft venue is ready. Add your address, payment instructions and a court so the platform team can review it.');
+    }
+
     public function edit(Request $request, Business $business): View
     {
         $this->authorizeOwner($request, $business);

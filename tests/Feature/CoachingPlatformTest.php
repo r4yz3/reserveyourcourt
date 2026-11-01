@@ -54,7 +54,10 @@ class CoachingPlatformTest extends TestCase
 
     public function test_coach_registration_creates_pending_profile_without_venue_privileges(): void
     {
-        $this->post(route('coach.register.store'), ['name' => 'New Coach', 'email' => 'coach@example.test', 'password' => 'StrongCoaching123!', 'password_confirmation' => 'StrongCoaching123!', 'status' => 'approved', 'is_super_admin' => 1])->assertRedirect(route('coach.portal'));
+        $this->get(route('coach.register'))->assertRedirect(route('register'));
+        $this->post(route('register.store'), ['name' => 'New Coach', 'email' => 'coach@example.test', 'password' => 'StrongCoaching123!', 'password_confirmation' => 'StrongCoaching123!', 'status' => 'approved', 'is_super_admin' => 1])->assertRedirect(route('coach.portal'));
+        $this->assertDatabaseCount('coaches', 0);
+        $this->post(route('coach.apply'), ['status' => 'approved'])->assertRedirect(route('coach.portal'));
         $coach = Coach::query()->sole();
         $this->assertSame('pending', $coach->status);
         $this->assertFalse($coach->user->is_super_admin);

@@ -15,10 +15,12 @@ use App\Http\Controllers\CourtClosureController;
 use App\Http\Controllers\CourtController;
 use App\Http\Controllers\CourtDisruptionController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\FeeSettingController;
 use App\Http\Controllers\GuestReservationController;
 use App\Http\Controllers\HostedOpenPlayController;
 use App\Http\Controllers\OpenPlayController;
+use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\PaymentProofController;
 use App\Http\Controllers\PlayerAccountController;
 use App\Http\Controllers\PlayerDashboardController;
@@ -48,14 +50,21 @@ Route::post('/venues/{business}/reservations', [GuestReservationController::clas
 Route::get('/reservations/{reference}', [GuestReservationController::class, 'show'])->middleware('throttle:60,1')->name('public.reservations.show');
 Route::post('/reservations/{reference}/receipt', [GuestReservationController::class, 'storeProof'])->middleware('throttle:10,1')->name('public.reservations.proof');
 Route::middleware('guest')->group(function (): void {
+    Route::get('/register', [PlayerAccountController::class, 'create'])->name('register');
+    Route::post('/register', [PlayerAccountController::class, 'store'])->middleware('throttle:5,30')->name('register.store');
+    Route::redirect('/play/register', '/register');
     Route::get('/coach/register', [CoachAccountController::class, 'create'])->name('coach.register');
-    Route::post('/coach/register', [CoachAccountController::class, 'store'])->middleware('throttle:5,30')->name('coach.register.store');
-    Route::get('/play/register', [PlayerAccountController::class, 'create'])->name('play.register');
-    Route::post('/play/register', [PlayerAccountController::class, 'store'])->middleware('throttle:5,30')->name('play.register.store');
     Route::get('/login', [SessionController::class, 'create'])->name('login');
     Route::post('/login', [SessionController::class, 'store'])->middleware('throttle:5,1')->name('login.store');
+    Route::get('/forgot-password', [PasswordResetController::class, 'create'])->name('password.request');
+    Route::post('/forgot-password', [PasswordResetController::class, 'store'])->middleware('throttle:5,1')->name('password.email');
+    Route::get('/reset-password/{token}', [PasswordResetController::class, 'edit'])->name('password.reset');
+    Route::post('/reset-password', [PasswordResetController::class, 'update'])->middleware('throttle:5,1')->name('password.update');
 });
 Route::middleware('auth')->group(function (): void {
+    Route::get('/email/verify', [EmailVerificationController::class, 'notice'])->name('verification.notice');
+    Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])->middleware(['signed', 'throttle:6,1'])->name('verification.verify');
+    Route::post('/email/verification-notification', [EmailVerificationController::class, 'send'])->middleware('throttle:6,1')->name('verification.send');
     Route::get('/play', [PlayerDashboardController::class, 'index'])->name('play.dashboard');
     Route::get('/play/bookings', [PlayerDashboardController::class, 'bookings'])->name('play.bookings');
     Route::get('/play/profile', [PlayerProfileController::class, 'edit'])->name('play.profile');
@@ -120,6 +129,8 @@ Route::middleware('auth')->group(function (): void {
     Route::patch('/bookings/{booking}', [BookingController::class, 'update'])->name('bookings.update');
     Route::get('/settings/fees', [FeeSettingController::class, 'edit'])->name('fees.edit');
     Route::put('/settings/fees', [FeeSettingController::class, 'update'])->name('fees.update');
+    Route::get('/venue/new', [VenueController::class, 'create'])->middleware('verified')->name('venue.create');
+    Route::post('/venue', [VenueController::class, 'store'])->middleware(['verified', 'throttle:10,1'])->name('venue.store');
     Route::get('/admin/businesses', [BusinessController::class, 'index'])->name('businesses.index');
     Route::get('/admin/businesses/new', [BusinessController::class, 'create'])->name('businesses.create');
     Route::post('/admin/businesses', [BusinessController::class, 'store'])->middleware('throttle:10,1')->name('businesses.store');
