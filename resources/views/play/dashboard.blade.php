@@ -51,7 +51,6 @@
                 <p class="record-empty">Your record starts with your first confirmed match.</p>
                 <p class="small muted">Record a score and add your opponent's account email. Once they confirm, it counts.</p>
             @endif
-            <a class="button secondary full" href="{{ route('play.scores.create') }}"><x-icon name="plus" size="16" />Record a score</a>
         </section>
     </div>
 
@@ -65,8 +64,8 @@
     <section class="player-panel" aria-labelledby="account-options-heading">
         <div class="section-heading"><h2 id="account-options-heading">More from your account</h2></div>
         <div class="account-options">
-            <div class="account-option"><x-icon name="clipboard" size="22" /><h3>{{ $hasCoachProfile ? 'Your coaching' : 'Offer coaching' }}</h3><p class="small muted">{{ $hasCoachProfile ? 'Manage your lessons, hours and students.' : 'Set your hours and take private lessons at affiliated venues.' }}</p><a class="button secondary compact" href="{{ route('coach.portal') }}">{{ $hasCoachProfile ? 'Open coach workspace' : 'Become a coach' }}</a></div>
-            <div class="account-option"><x-icon name="building" size="22" /><h3>{{ $hasVenue ? 'Your venue' : 'List your venue' }}</h3><p class="small muted">{{ $hasVenue ? 'Manage your court schedule, bookings and venue setup.' : 'Take court bookings online. Your venue goes live after review.' }}</p><a class="button secondary compact" href="{{ $hasVenue ? route('dashboard') : route('venue.create') }}">{{ $hasVenue ? 'Open venue workspace' : 'Add your venue' }}</a></div>
+            <a class="account-option" href="{{ route('coach.portal') }}"><span class="account-option-icon"><x-icon name="clipboard" size="20" /></span><span class="account-option-body"><strong>{{ $hasCoachProfile ? 'Open coach workspace' : 'Become a coach' }}</strong><span>{{ $hasCoachProfile ? 'Manage your lessons, hours and students.' : 'Set your hours and take private lessons at affiliated venues.' }}</span></span><x-icon name="arrow" size="16" /></a>
+            <a class="account-option" href="{{ $hasVenue ? route('dashboard') : route('venue.create') }}"><span class="account-option-icon"><x-icon name="building" size="20" /></span><span class="account-option-body"><strong>{{ $hasVenue ? 'Open venue workspace' : 'Add your venue' }}</strong><span>{{ $hasVenue ? 'Manage your court schedule, bookings and venue setup.' : 'Take court bookings online. Your venue goes live after review.' }}</span></span><x-icon name="arrow" size="16" /></a>
         </div>
     </section>
 </div>
