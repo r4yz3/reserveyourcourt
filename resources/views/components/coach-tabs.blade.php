@@ -1,0 +1,2 @@
+@props(['active'])
+<nav class="coach-tabs" aria-label="Coach workspace sections">@foreach(['lessons'=>'Lessons','students'=>'Students','profile'=>'Profile','availability'=>'Weekly hours','venues'=>'Venues','time-off'=>'Time off'] as $key=>$label)<a href="{{ $key==='students' ? route('coach.students.index') : route('coach.portal',['tab'=>$key]) }}" @if($active===$key) aria-current="page" @endif>{{ $label }}</a>@endforeach</nav>

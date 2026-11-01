@@ -1,0 +1,3 @@
+@extends('layouts.app')
+@section('title','Coach workspace')
+@section('content')<div class="heading"><div><h1>Your coaching starts here.</h1><p class="muted">Add a coach profile to your existing account. Your current venue permissions stay the same.</p></div></div><div class="panel"><h2>A dedicated space for your lessons</h2><p>Manage your profile, weekly hours, time off, venue affiliations and private student notes. Platform and venue approval are required before your profile accepts bookings.</p><form method="post" action="{{ route('coach.apply') }}">@csrf<button class="button">Create my coach profile</button></form></div>@endsection

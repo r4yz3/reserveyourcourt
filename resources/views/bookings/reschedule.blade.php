@@ -1,0 +1,27 @@
+@extends('layouts.app')
+@section('title','Move reservation')
+@section('content')
+<a class="back-link" href="{{ route('bookings.show',$booking) }}">← Booking details</a>
+<div class="heading"><div><h1>Find a better time.</h1><p class="muted">{{ $booking->shortReference() }} · Move this reservation when rain or court conditions prevent safe play.</p></div></div>
+<div class="form-layout"><section>
+@if(!$booking->canWeatherReschedule())<div class="notice">Only fully paid, confirmed reservations can be moved. Resolve the booking’s payment or status first.</div>@endif
+<form class="panel" method="get" action="{{ route('bookings.reschedule.edit',$booking) }}">
+<h2>Find an available slot</h2><p class="small muted">Choose the replacement court and date first. Indoor and covered courts can offer an alternative during rain.</p>
+<div class="availability-filters"><div><label for="search_court">Court</label><select id="search_court" name="court" required>@foreach($courts as $court)<option value="{{ $court->id }}" @selected($selectedCourt?->id === $court->id)>{{ $court->name }} · {{ ucfirst($court->type) }}</option>@endforeach</select></div><div><label for="search_date">Date · Philippine time</label><input type="date" id="search_date" name="date" min="{{ now('Asia/Manila')->toDateString() }}" max="{{ now('Asia/Manila')->addDays(90)->toDateString() }}" value="{{ $date->toDateString() }}" required></div></div>
+<div class="form-actions"><button class="button secondary" @disabled($courts->isEmpty())>Show available times</button></div></form>
+<form class="panel" method="post" action="{{ route('bookings.reschedule.store',$booking) }}">@csrf
+<input type="hidden" name="request_key" value="{{ old('request_key',$requestKey) }}"><input type="hidden" name="expected_version" value="{{ old('expected_version',$booking->reschedule_version) }}">
+<fieldset @disabled(!$booking->canWeatherReschedule()) class="reschedule-fields">
+<h2>Replacement schedule</h2>@if($booking->coach)<p class="small muted">Private lesson with {{ $booking->coach->user->name }}. Only times when both the court and coach are available are shown. Coordinate the change with the coach.</p>@endif
+<label for="reason">Reason for moving</label><select name="reason" id="reason" required><option value="rain" @selected(old('reason')==='rain')>Rain / unsafe weather</option><option value="unplayable" @selected(old('reason')==='unplayable')>Court unplayable</option></select>
+<input type="hidden" name="court_id" value="{{ $selectedCourt?->id }}">
+<fieldset class="slot-picker"><legend>{{ $selectedCourt?->name ?? 'No active court' }} · {{ $date->format('D, j M Y') }}</legend>
+<p class="small muted">{{ $duration }} minutes per reservation · Philippine time. Your original price stays the same.</p>
+@if(count($slots))<div class="replacement-slots">@foreach($slots as $slot)<label class="replacement-slot"><input type="radio" name="starts_at" value="{{ $slot }}" @checked(old('starts_at') === $slot) required><span>{{ \Carbon\CarbonImmutable::parse($slot,'Asia/Manila')->format('g:i A') }}<small>until {{ \Carbon\CarbonImmutable::parse($slot,'Asia/Manila')->addMinutes($duration)->format('g:i A') }}</small></span></label>@endforeach</div>
+@else<div class="notice">No replacement times fit this booking on this court and date. Try another date or an indoor / covered court.</div>@endif
+<p class="small muted">Availability is checked again when you save. The current reservation stays in place until the move succeeds.</p></fieldset>
+<label for="staff_notes">Private staff notes <span class="muted">(optional)</span></label><textarea name="staff_notes" id="staff_notes" maxlength="1000" rows="3">{{ old('staff_notes') }}</textarea><p class="small muted">Notes are visible to venue staff only. The player can see the updated time and reason.</p>
+@if($canBlock)<div class="policy-note"><label class="closure-toggle"><input data-closure-toggle type="checkbox" name="block_original" value="1" @checked(old('block_original'))> Also block the affected court</label><p class="small muted">Closes the original court from its booked start, or the current half-hour if later. Other reservations are protected; a conflict prevents both changes.</p><label for="closure_ends_at">Court unavailable until · Philippine time</label><input type="datetime-local" name="closure_ends_at" id="closure_ends_at" data-closure-end step="1800" value="{{ old('closure_ends_at',$closureEnd) }}"></div>@endif
+<div class="form-actions"><button class="button" @disabled(!count($slots))>Save replacement time</button><a class="button secondary" href="{{ route('bookings.show',$booking) }}">Keep current booking</a></div>
+</fieldset></form></section><aside><div class="panel"><h2>Current reservation</h2><p><strong>{{ $booking->customer_name }}</strong><br>{{ $booking->court->name }}</p><p>{{ $booking->starts_at->setTimezone('Asia/Manila')->format('D, j M Y · g:i A') }}–{{ $booking->ends_at->setTimezone('Asia/Manila')->format('g:i A') }}</p><dl class="details"><div><dt>Already paid</dt><dd>₱{{ number_format($booking->paid_centavos/100,2) }}</dd></div><div><dt>Additional payment</dt><dd>₱0.00</dd></div></dl><p class="small muted">The original price, duration, receipt and platform fee stay with this booking, including moves to another court at this venue.</p></div><div class="policy-note"><h2>Coordinate with the player</h2><p>Agree on the replacement time and contact {{ $booking->customer_contact }} after saving. Email and SMS are not sent automatically.</p></div></aside></div>
+@endsection

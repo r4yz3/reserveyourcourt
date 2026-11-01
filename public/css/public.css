@@ -1,0 +1,1219 @@
+.player-site {
+    background: #fff;
+    color: #152032;
+}
+.public-header {
+    max-width: 1440px;
+    margin: auto;
+    height: 84px;
+    padding: 0 44px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 22px;
+}
+.public-header .brand {
+    padding: 0;
+    font-size: 24px;
+    letter-spacing: -1px;
+}
+.public-header nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    font-size: 13px;
+}
+.public-header nav > a {
+    padding: 12px 0;
+    white-space: nowrap;
+}
+.staff-link {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    border-left: 1px solid var(--line);
+    padding-left: 26px !important;
+}
+.public-container {
+    width: calc(100% - 88px);
+    max-width: 1352px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.public-hero {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 470px;
+    background: #eff2f6;
+}
+.hero-copy {
+    padding: 55px 44px 45px;
+    align-self: center;
+}
+.hero-location {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    letter-spacing: 0.2px;
+    color: #5a6478;
+    margin: 0 0 26px;
+}
+.hero-copy h1 {
+    font-size: clamp(40px, 4.7vw, 66px);
+    line-height: 1.02;
+    letter-spacing: -2.3px;
+    font-weight: 600;
+    margin: 0 0 24px;
+    color: #0f1e37;
+}
+.hero-copy > p:not(.hero-location) {
+    font-size: 16px;
+    max-width: 440px;
+    line-height: 1.7;
+    color: #606978;
+}
+.court-search {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #d1d6de;
+    border-radius: 7px;
+    margin-top: 30px;
+    padding: 5px 5px 5px 14px;
+    gap: 10px;
+    max-width: 570px;
+}
+.court-search > .icon {
+    color: #59667b;
+}
+.court-search input {
+    min-width: 0;
+    flex: 1;
+    border: 0;
+    padding: 8px 0;
+    background: transparent;
+    font-size: 13px;
+    min-height: 42px;
+}
+.court-search .button {
+    background: #20355a;
+    border-color: #20355a;
+    min-height: 44px;
+    font-size: 12px;
+    white-space: nowrap;
+    gap: 14px;
+}
+.court-search:focus-within {
+    outline: 2px solid #63779a;
+    outline-offset: 2px;
+}
+.court-search input:focus-visible {
+    outline: 0;
+}
+.hero-detail {
+    display: block;
+    font-size: 11px;
+    color: #687180;
+    margin-top: 17px;
+    line-height: 1.7;
+}
+.hero-photo {
+    position: relative;
+    margin: 0;
+    min-height: 470px;
+    overflow: hidden;
+}
+.hero-photo > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    inset: 0;
+    object-position: 55% center;
+}
+.hero-photo figcaption {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: #fff;
+    color: #3e4859;
+    padding: 5px 8px;
+    border-radius: 3px;
+    font-size: 10px;
+    opacity: 0.92;
+}
+.booking-principles {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid var(--line);
+}
+.booking-principles > div {
+    padding: 0 25px;
+    border-right: 1px solid var(--line);
+}
+.booking-principles > div:first-child {
+    padding-left: 0;
+}
+.booking-principles > div:last-child {
+    border: 0;
+}
+.booking-principles strong {
+    font-size: 13px;
+    font-weight: 600;
+}
+.booking-principles p {
+    font-size: 12px;
+    line-height: 1.7;
+    color: #69707d;
+    margin: 8px 0 0;
+    max-width: 290px;
+}
+.venue-discovery {
+    padding-top: 46px;
+    padding-bottom: 60px;
+    scroll-margin-top: 24px;
+}
+.discovery-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 22px;
+    margin-bottom: 25px;
+}
+.discovery-heading h2 {
+    font-size: 28px;
+    letter-spacing: -0.9px;
+    margin: 0 0 10px;
+    line-height: 1.25;
+}
+.discovery-heading p {
+    font-size: 13px;
+    margin: 0;
+}
+.result-count {
+    font-size: 12px;
+    color: var(--muted);
+    white-space: nowrap;
+}
+.public-venue-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}
+.public-venue-card {
+    display: block;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    min-width: 0;
+}
+.public-venue-card:hover {
+    border-color: #b1bbcd;
+    text-decoration: none;
+}
+.venue-card-image {
+    aspect-ratio: 1.8;
+    overflow: hidden;
+    background: #eceff4;
+}
+.venue-card-image > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.no-venue-photo {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    color: #707d93;
+}
+.no-venue-photo span {
+    font-size: 12px;
+}
+.venue-card-content {
+    padding: 21px;
+}
+.venue-card-content h3 {
+    font-size: 17px;
+    letter-spacing: -0.3px;
+    overflow-wrap: anywhere;
+    margin: 0;
+}
+.venue-card-content > p {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #6a7382;
+    font-size: 12px;
+    margin: 12px 0 19px;
+}
+.venue-card-content > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 12px;
+    color: #667081;
+}
+.venue-card-content strong {
+    font-size: 17px;
+    color: #263651;
+    font-weight: 600;
+}
+.card-arrow {
+    height: 30px;
+    width: 30px;
+    border: 1px solid #d4d9e1;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+}
+.discovery-empty {
+    grid-column: 1/-1;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 38px 10px;
+    text-align: center;
+    color: #6c7585;
+}
+.discovery-empty > .icon {
+    margin-bottom: 16px;
+}
+.discovery-empty h3 {
+    font-size: 18px;
+    color: #324059;
+    margin-bottom: 10px;
+}
+.discovery-empty p {
+    font-size: 13px;
+}
+.public-footer {
+    max-width: 1352px;
+    width: calc(100% - 88px);
+    margin: 0 auto;
+    border-top: 1px solid var(--line);
+    padding: 29px 0 32px;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    flex-wrap: wrap;
+}
+.public-footer .brand {
+    font-size: 20px;
+    padding: 0;
+    margin-right: 8px;
+}
+.public-footer .court-mark {
+    width: 23px;
+    height: 29px;
+}
+.public-footer .court-mark i {
+    left: 10px;
+}
+.public-footer .court-mark:before {
+    top: 12px;
+}
+.public-footer .court-mark:after {
+    top: 6px;
+    height: 14px;
+}
+.public-footer > p {
+    font-size: 12px;
+    color: #78808e;
+    margin: 0;
+}
+.public-footer > span {
+    font-size: 11px;
+    color: #78808e;
+    margin-left: auto;
+}
+.public-footer > a:last-child {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #425472;
+}
+.venue-page {
+    padding-top: 25px;
+    padding-bottom: 60px;
+}
+.public-venue-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin: 8px 0 30px;
+}
+.public-venue-heading h1 {
+    font-size: 38px;
+    letter-spacing: -1.3px;
+    overflow-wrap: anywhere;
+}
+.venue-city {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    font-size: 12px;
+    color: #6a7485;
+    margin: 0 0 12px;
+}
+.public-venue-heading .muted {
+    font-size: 13px;
+    margin: 12px 0 0;
+}
+.public-venue-rate {
+    font-size: 12px;
+    white-space: nowrap;
+    color: #697282;
+}
+.public-venue-rate strong {
+    font-size: 27px;
+    font-weight: 550;
+    color: #2f3f5b;
+    letter-spacing: -0.7px;
+    margin: 0 3px;
+}
+.venue-banner {
+    display: block;
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+.venue-description {
+    font-size: 14px;
+    color: #606978;
+    line-height: 1.9;
+    max-width: 80ch;
+    margin: 25px 0 0;
+    white-space: pre-line;
+}
+.availability-section {
+    margin-top: 40px;
+}
+.availability-filters {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    padding-bottom: 24px;
+    margin-bottom: 27px;
+    border-bottom: 1px solid var(--line);
+}
+.availability-filters > div {
+    max-width: 230px;
+    flex: 1;
+}
+.availability-filters label {
+    margin-top: 0;
+}
+.availability-filters .button {
+    min-height: 43px;
+}
+.public-booking-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 34px;
+}
+.public-availability {
+    min-width: 0;
+    scroll-margin-top: 25px;
+}
+.public-availability > .section-heading {
+    margin-bottom: 22px;
+}
+.public-court-slots {
+    margin: 0 0 25px;
+    padding: 22px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    min-width: 0;
+}
+.public-court-slots legend {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    padding: 0 7px;
+}
+.court-slot-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 12px;
+    color: #697384;
+}
+.court-slot-meta strong {
+    font-size: 12px;
+    font-weight: 500;
+    color: #3a4b69;
+}
+.slot-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+.slot-option {
+    position: relative;
+    min-width: 84px;
+    margin: 0;
+    cursor: pointer;
+}
+.slot-option input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    margin: 0;
+    cursor: pointer;
+}
+.slot-option > span {
+    display: block;
+    padding: 11px 10px;
+    text-align: center;
+    border: 1px solid #d7dce4;
+    border-radius: 5px;
+    color: #3e506e;
+    font-size: 12px;
+    background: white;
+    min-height: 42px;
+}
+.slot-option:has(input:checked) > span {
+    background: #e8ecf3;
+    border-color: #546d98;
+    color: #1a2f52;
+}
+.slot-option:focus-within > span {
+    outline: 2px solid var(--green);
+    outline-offset: 2px;
+}
+.slot-option:hover > span {
+    background: #f1f3f7;
+    border-color: #9caac1;
+}
+.slot-option:has(input:disabled) {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.availability-note {
+    display: flex;
+    gap: 8px;
+    font-size: 12px;
+    line-height: 1.8;
+    color: #70798a;
+}
+.availability-note .icon {
+    margin-top: 4px;
+}
+.player-checkout {
+    position: sticky;
+    top: 24px;
+    align-self: start;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 25px;
+    background: #f8f9fb;
+    scroll-margin-top: 25px;
+}
+.player-checkout > h2 {
+    font-size: 18px;
+    letter-spacing: -0.4px;
+    margin: 0 0 22px;
+}
+.selected-game {
+    border-top: 1px solid var(--line);
+    padding-top: 20px;
+}
+.selected-game > span {
+    display: block;
+    font-size: 15px;
+    font-weight: 550;
+}
+.selected-game > small {
+    display: block;
+    font-size: 12px;
+    color: #6a7384;
+    margin-top: 8px;
+    line-height: 1.7;
+}
+.player-total {
+    padding: 22px 0;
+    border-bottom: 1px solid var(--line);
+}
+.player-total > span {
+    display: block;
+    font-size: 12px;
+    color: #626e82;
+}
+.player-total strong {
+    display: block;
+    font-size: 28px;
+    font-weight: 550;
+    letter-spacing: -0.8px;
+    margin-top: 9px;
+}
+.player-checkout label {
+    font-size: 12px;
+}
+.payment-method {
+    display: flex;
+    gap: 10px;
+    align-items: start;
+    padding: 19px 0;
+    border-bottom: 1px solid var(--line);
+    margin-top: 8px;
+    color: #51627f;
+}
+.payment-method strong {
+    font-size: 12px;
+    font-weight: 550;
+    display: block;
+    color: #2e4162;
+}
+.payment-method small {
+    font-size: 11px;
+    display: block;
+    line-height: 1.7;
+    margin-top: 6px;
+    color: #687284;
+}
+.acknowledgement {
+    display: flex;
+    align-items: start;
+    gap: 10px;
+    line-height: 1.7;
+    font-size: 11px !important;
+    margin: 20px 0;
+}
+.acknowledgement input {
+    width: 16px;
+    min-height: 16px;
+    height: 16px;
+    margin-top: 3px;
+    flex-shrink: 0;
+    accent-color: #31486f;
+}
+.player-checkout > .button {
+    margin: 5px 0 0;
+    min-height: 44px;
+}
+.player-checkout > p {
+    font-size: 11px;
+    line-height: 1.8;
+    margin-bottom: 0;
+}
+.reservation-page {
+    padding-top: 25px;
+    padding-bottom: 60px;
+    max-width: 1080px;
+}
+.reservation-progress {
+    display: flex;
+    gap: 35px;
+    font-size: 12px;
+    color: #8e96a3;
+    padding: 12px 0 20px;
+    border-bottom: 1px solid var(--line);
+}
+.reservation-progress > span {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+.reservation-progress .done {
+    color: #475c81;
+}
+.reservation-progress .current {
+    color: #213351;
+    font-weight: 600;
+}
+.player-reservation-heading {
+    margin: 35px 0 30px;
+}
+.player-reservation-heading h1 {
+    font-size: 34px;
+    letter-spacing: -1px;
+}
+.player-reservation-heading p {
+    font-size: 14px;
+    color: #6a7384;
+    max-width: 70ch;
+}
+.public-reservation-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 30px;
+}
+.public-reservation-card {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 24px;
+}
+.public-reservation-card h2 {
+    font-size: 20px;
+    letter-spacing: -0.5px;
+}
+.public-reservation-card > p {
+    font-size: 12px;
+    line-height: 1.7;
+}
+.public-reservation-card .details > div {
+    grid-template-columns: 140px 1fr;
+}
+.player-payment-panel {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 25px;
+    background: #f8f9fb;
+    align-self: start;
+}
+.player-payment-panel h2 {
+    font-size: 19px;
+    line-height: 1.5;
+    letter-spacing: -0.4px;
+}
+.player-payment-panel > p {
+    font-size: 13px;
+    color: #616c7e;
+}
+.player-payment-panel > .review-check {
+    margin-left: 0;
+}
+.transfer-instructions {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    background: white;
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    line-height: 1.9;
+    font-size: 13px;
+    margin: 20px 0;
+}
+.player-payment-panel form > .button {
+    margin-top: 16px;
+    min-height: 44px;
+}
+.session-note {
+    display: flex;
+    align-items: start;
+    gap: 8px;
+    font-size: 11px;
+    line-height: 1.8;
+    color: #707a8b;
+    margin-top: 18px;
+}
+.session-note > .icon {
+    margin-top: 3px;
+}
+.public-container > .notice {
+    margin-top: 20px;
+}
+@media (max-width: 1100px) {
+    .public-header {
+        padding: 0 30px;
+    }
+    .public-container,
+    .public-footer {
+        width: calc(100% - 60px);
+    }
+    .hero-copy {
+        padding: 40px 30px;
+    }
+    .hero-copy h1 {
+        font-size: 47px;
+        letter-spacing: -1.6px;
+    }
+    .hero-copy > p:not(.hero-location) {
+        font-size: 14px;
+    }
+    .court-search {
+        flex-wrap: wrap;
+    }
+    .court-search input {
+        flex-basis: 70%;
+    }
+    .court-search .button {
+        flex-basis: 100%;
+    }
+    .hero-photo {
+        min-height: 480px;
+    }
+    .public-venue-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .public-booking-layout {
+        grid-template-columns: minmax(0, 1fr) 300px;
+        gap: 24px;
+    }
+    .player-checkout {
+        padding: 21px;
+    }
+    .court-slot-meta {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    .public-footer > span {
+        margin-left: 0;
+    }
+    .public-venue-heading h1 {
+        font-size: 31px;
+    }
+    .public-venue-rate strong {
+        font-size: 23px;
+    }
+    .public-reservation-layout {
+        gap: 22px;
+    }
+    .public-reservation-card .details > div {
+        grid-template-columns: 110px 1fr;
+    }
+}
+@media (max-width: 760px) {
+    .public-header {
+        height: 72px;
+        padding: 0 22px;
+        gap: 16px;
+    }
+    .public-header .brand {
+        font-size: 21px;
+        gap: 8px;
+    }
+    .public-header nav {
+        gap: 18px;
+        font-size: 12px;
+    }
+    .public-header nav .how-link {
+        display: none;
+    }
+    .staff-link {
+        padding-left: 16px !important;
+    }
+    .public-hero {
+        grid-template-columns: 1fr;
+    }
+    .hero-copy {
+        padding: 35px 24px;
+    }
+    .hero-copy h1 {
+        font-size: 47px;
+        line-height: 1.05;
+        letter-spacing: -1.8px;
+        margin-bottom: 20px;
+    }
+    .hero-location {
+        font-size: 12px;
+        margin-bottom: 23px;
+    }
+    .hero-copy > p:not(.hero-location) {
+        font-size: 14px;
+        max-width: 40ch;
+    }
+    .court-search {
+        flex-wrap: nowrap;
+        margin-top: 25px;
+        gap: 6px;
+        padding-left: 11px;
+    }
+    .court-search input {
+        font-size: 12px;
+        flex-basis: 0;
+    }
+    .court-search .button {
+        flex-basis: auto;
+        font-size: 11px;
+        padding: 10px 12px;
+        gap: 7px;
+    }
+    .court-search .button .icon {
+        display: none;
+    }
+    .hero-detail {
+        font-size: 11px;
+    }
+    .hero-photo {
+        min-height: 270px;
+        max-height: 320px;
+    }
+    .hero-photo > img {
+        object-position: center 60%;
+    }
+    .hero-photo figcaption {
+        font-size: 9px;
+    }
+    .public-container,
+    .public-footer {
+        width: calc(100% - 40px);
+    }
+    .booking-principles {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding-top: 26px;
+        padding-bottom: 28px;
+    }
+    .booking-principles > div {
+        padding: 0 !important;
+        border: 0;
+    }
+    .booking-principles strong {
+        font-size: 13px;
+    }
+    .booking-principles p {
+        margin: 5px 0 0;
+        max-width: none;
+        font-size: 12px;
+    }
+    .venue-discovery {
+        padding-top: 32px;
+        padding-bottom: 40px;
+    }
+    .discovery-heading {
+        gap: 16px;
+        align-items: flex-start;
+        margin-bottom: 22px;
+    }
+    .discovery-heading h2 {
+        font-size: 25px;
+        letter-spacing: -0.7px;
+    }
+    .discovery-heading p {
+        font-size: 12px;
+        line-height: 1.8;
+    }
+    .result-count {
+        font-size: 11px;
+        padding-top: 5px;
+    }
+    .public-venue-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .venue-card-content {
+        padding: 19px;
+    }
+    .discovery-empty {
+        padding: 30px 0;
+    }
+    .discovery-empty h3 {
+        font-size: 17px;
+    }
+    .discovery-empty p {
+        font-size: 12px;
+    }
+    .public-footer {
+        padding: 24px 0;
+        gap: 18px;
+    }
+    .public-footer .brand {
+        font-size: 19px;
+    }
+    .public-footer > p {
+        display: none;
+    }
+    .public-footer > span {
+        font-size: 10px;
+        flex-basis: 100%;
+        order: 3;
+    }
+    .public-footer > a:last-child {
+        margin-left: auto;
+        font-size: 11px;
+    }
+    .venue-page {
+        padding-top: 19px;
+        padding-bottom: 40px;
+    }
+    .public-venue-heading {
+        display: block;
+        margin: 4px 0 24px;
+    }
+    .public-venue-heading h1 {
+        font-size: 28px;
+        letter-spacing: -0.8px;
+    }
+    .public-venue-rate {
+        display: block;
+        margin-top: 20px;
+        font-size: 11px;
+    }
+    .public-venue-rate strong {
+        font-size: 21px;
+    }
+    .venue-banner {
+        height: 235px;
+    }
+    .venue-description {
+        font-size: 13px;
+        line-height: 1.9;
+        margin-top: 20px;
+    }
+    .availability-section {
+        margin-top: 29px;
+    }
+    .availability-filters {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    .availability-filters > div {
+        min-width: 0;
+        flex: 1;
+        max-width: none;
+    }
+    .availability-filters > .button {
+        flex-basis: 100%;
+    }
+    .public-booking-layout {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+    .public-court-slots {
+        padding: 18px 15px;
+        margin-bottom: 22px;
+    }
+    .public-court-slots legend {
+        font-size: 15px;
+    }
+    .court-slot-meta {
+        font-size: 11px;
+        gap: 8px;
+    }
+    .court-slot-meta strong {
+        font-size: 11px;
+    }
+    .slot-option {
+        min-width: 79px;
+        flex-grow: 1;
+        max-width: 100px;
+    }
+    .slot-option > span {
+        font-size: 11px;
+        min-height: 44px;
+        padding: 12px 8px;
+    }
+    .slot-options {
+        gap: 8px;
+    }
+    .player-checkout {
+        position: static;
+        padding: 22px;
+    }
+    .player-checkout > h2 {
+        font-size: 18px;
+    }
+    .public-availability > .section-heading h2 {
+        font-size: 13px;
+    }
+    .availability-note {
+        font-size: 11px;
+    }
+    .reservation-page {
+        padding-top: 19px;
+        padding-bottom: 40px;
+    }
+    .reservation-progress {
+        gap: 15px;
+        font-size: 10px;
+        justify-content: space-between;
+    }
+    .reservation-progress > span {
+        gap: 4px;
+    }
+    .player-reservation-heading {
+        margin: 27px 0 24px;
+    }
+    .player-reservation-heading h1 {
+        font-size: 27px;
+        letter-spacing: -0.8px;
+    }
+    .player-reservation-heading p {
+        font-size: 12px;
+    }
+    .public-reservation-layout {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+    .public-reservation-card {
+        padding: 21px;
+    }
+    .public-reservation-card h2 {
+        font-size: 18px;
+    }
+    .public-reservation-card .details > div {
+        grid-template-columns: 110px 1fr;
+    }
+    .player-payment-panel {
+        padding: 22px;
+    }
+    .player-payment-panel h2 {
+        font-size: 18px;
+    }
+    .transfer-instructions {
+        font-size: 12px;
+        padding: 16px;
+    }
+    .session-note {
+        font-size: 11px;
+    }
+}
+@media (max-width: 500px) {
+    .public-header nav > a:first-child {
+        display: none;
+    }
+    .public-header nav {
+        gap: 0;
+    }
+    .staff-link {
+        padding-left: 0 !important;
+        border: 0;
+        font-size: 11px;
+    }
+    .staff-link .icon {
+        width: 14px;
+    }
+    .hero-copy h1 {
+        font-size: 44px;
+    }
+    .public-header .brand {
+        font-size: 20px;
+    }
+    .public-header {
+        padding: 0 20px;
+    }
+    .hero-copy {
+        padding: 31px 21px;
+    }
+    .hero-photo {
+        min-height: 235px;
+    }
+    .public-footer .court-mark {
+        display: none;
+    }
+}
+
+.coach-registration { max-width: 760px; padding-top: 60px; padding-bottom: 60px; }
+.coach-registration h1 { font-size: clamp(32px,4vw,48px); line-height: 1.1; letter-spacing: -.03em; margin: 24px 0; }
+.coach-registration .panel { margin-top: 32px; }
+.coach-directory { margin-top: 40px; }
+.coach-directory-item { display: grid; grid-template-columns: 72px minmax(0,1fr); gap: 28px; padding: 32px 0; border-top: 1px solid #dbdfe6; }
+.coach-directory-item h2 { margin: 0 0 12px; font-size: 26px; }
+.coach-initial { display: grid; place-items: center; width: 64px; height: 64px; background: #e6e9ef; color: #1d3560; border-radius: 50%; font-size: 26px; }
+.coach-book-filters { display: grid; grid-template-columns: minmax(160px,1.4fr) 1fr .7fr auto; align-items: end; gap: 16px; padding: 24px 0; }
+.coach-book-filters input, .coach-book-filters select { margin-bottom: 0; }
+@media(max-width:1000px) { .coach-book-filters { grid-template-columns: 1fr 1fr; } }
+@media(max-width:600px) { .coach-directory-item { grid-template-columns: 1fr; gap: 16px; } .coach-book-filters { grid-template-columns: 1fr; gap: 12px; } .public-header nav { gap: 10px; } .public-header nav a { font-size: 12px; } }
+
+/* Premium court navy + ball yellow layer */
+.player-site {
+    color: var(--ink);
+}
+.public-header nav > a:not(.staff-link):hover {
+    text-decoration: none;
+    color: var(--navy-700);
+}
+.staff-link {
+    font-weight: 600;
+    color: var(--navy-800);
+}
+.public-hero {
+    background: var(--navy-900);
+    color: #e9eef7;
+    border-radius: 22px;
+    overflow: hidden;
+    width: calc(100% - 32px);
+    max-width: 1408px;
+}
+.hero-location {
+    color: var(--ball);
+    font-weight: 550;
+}
+.hero-copy h1 {
+    color: #fff;
+    font-weight: 620;
+    letter-spacing: -0.035em;
+}
+.hero-copy > p:not(.hero-location) {
+    color: #b4bfd2;
+}
+.hero-detail {
+    color: #8e9bb3;
+}
+.court-search {
+    border-color: transparent;
+    border-radius: 12px;
+    padding: 6px 6px 6px 16px;
+    box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.6);
+}
+.court-search:focus-within {
+    outline: 2px solid var(--ball);
+    outline-offset: 3px;
+}
+.court-search .button {
+    background: var(--ball);
+    border-color: var(--ball);
+    color: var(--ball-ink);
+    border-radius: 9px;
+    padding-inline: 18px;
+}
+.court-search .button:hover {
+    background: var(--ball-strong);
+    border-color: var(--ball-strong);
+}
+.hero-photo figcaption {
+    background: rgba(10, 20, 38, 0.72);
+    color: #e9eef7;
+    backdrop-filter: blur(6px);
+}
+.booking-principles strong {
+    color: var(--navy-900);
+}
+.public-venue-card {
+    border-radius: 14px;
+    background: var(--surface);
+    transition:
+        border-color 0.25s var(--ease-out),
+        box-shadow 0.25s var(--ease-out),
+        transform 0.25s var(--ease-out);
+}
+.public-venue-card:hover {
+    border-color: transparent;
+    box-shadow: 0 22px 44px -24px rgba(10, 20, 38, 0.35);
+    transform: translateY(-2px);
+}
+.venue-card-image > img {
+    transition: transform 0.6s var(--ease-out);
+}
+.public-venue-card:hover .venue-card-image > img {
+    transform: scale(1.03);
+}
+.venue-card-content strong {
+    color: var(--navy-900);
+}
+.card-arrow {
+    transition:
+        background-color 0.25s var(--ease-out),
+        border-color 0.25s var(--ease-out);
+}
+.public-venue-card:hover .card-arrow {
+    background: var(--ball);
+    border-color: var(--ball);
+    color: var(--ball-ink);
+}
+@media (prefers-reduced-motion: reduce) {
+    .public-venue-card,
+    .public-venue-card:hover,
+    .public-venue-card:hover .venue-card-image > img {
+        transition: none;
+        transform: none;
+    }
+}
