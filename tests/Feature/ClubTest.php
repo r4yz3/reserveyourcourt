@@ -166,6 +166,50 @@ class ClubTest extends TestCase
         $this->actingAs($club->owner)->post(route('clubs.leave', $club))->assertStatus(409);
     }
 
+    public function test_actions_only_apply_to_the_matching_membership_state(): void
+    {
+        $club = Club::factory()->create(['auto_approve' => false]);
+        $moderator = $this->member($club, 'moderator');
+        $otherModerator = $club->memberships()->where('user_id', $this->member($club, 'moderator')->id)->sole();
+        $pending = $club->memberships()->where('user_id', $this->member($club, 'member', 'pending')->id)->sole();
+
+        $this->actingAs($moderator)->patch(route('clubs.members.update', [$club, $otherModerator]), ['action' => 'decline'])->assertStatus(409);
+        $this->actingAs($moderator)->patch(route('clubs.members.update', [$club, $pending]), ['action' => 'promote'])->assertStatus(403);
+        $this->actingAs($club->owner)->patch(route('clubs.members.update', [$club, $pending]), ['action' => 'promote'])->assertStatus(409);
+        $this->actingAs($club->owner)->patch(route('clubs.members.update', [$club, $pending]), ['action' => 'remove'])->assertStatus(409);
+        $this->assertModelExists($otherModerator);
+        $this->assertSame(['moderator', 'member'], [$otherModerator->fresh()->role, $pending->fresh()->role]);
+    }
+
+    public function test_role_and_approval_actions_are_rejected_when_already_applied(): void
+    {
+        $club = Club::factory()->create();
+        $moderatorEntry = $club->memberships()->where('user_id', $this->member($club, 'moderator')->id)->sole();
+        $memberEntry = $club->memberships()->where('user_id', $this->member($club)->id)->sole();
+
+        $this->actingAs($club->owner)->patch(route('clubs.members.update', [$club, $moderatorEntry]), ['action' => 'promote'])->assertStatus(409);
+        $this->actingAs($club->owner)->patch(route('clubs.members.update', [$club, $memberEntry]), ['action' => 'demote'])->assertStatus(409);
+        $this->actingAs($club->owner)->patch(route('clubs.members.update', [$club, $memberEntry]), ['action' => 'approve'])->assertStatus(409);
+        $this->actingAs($club->owner)->patch(route('clubs.members.update', [$club, $memberEntry]), ['action' => 'decline'])->assertStatus(409);
+        $this->assertSame(['moderator', 'member'], [$moderatorEntry->fresh()->role, $memberEntry->fresh()->role]);
+    }
+
+    public function test_managers_can_still_decline_requests_remove_members_and_demote_moderators(): void
+    {
+        $club = Club::factory()->create(['auto_approve' => false]);
+        $moderator = $this->member($club, 'moderator');
+        $pending = $club->memberships()->where('user_id', $this->member($club, 'member', 'pending')->id)->sole();
+        $memberEntry = $club->memberships()->where('user_id', $this->member($club)->id)->sole();
+        $moderatorEntry = $club->memberships()->where('user_id', $moderator->id)->sole();
+
+        $this->actingAs($moderator)->patch(route('clubs.members.update', [$club, $pending]), ['action' => 'decline'])->assertRedirect()->assertSessionHas('success', 'Request declined.');
+        $this->assertModelMissing($pending);
+        $this->actingAs($moderator)->patch(route('clubs.members.update', [$club, $memberEntry]), ['action' => 'remove'])->assertRedirect()->assertSessionHas('success', 'Member removed.');
+        $this->assertModelMissing($memberEntry);
+        $this->actingAs($club->owner)->patch(route('clubs.members.update', [$club, $moderatorEntry]), ['action' => 'demote'])->assertRedirect()->assertSessionHas('success', 'Moderator role removed.');
+        $this->assertSame('member', $moderatorEntry->fresh()->role);
+    }
+
     public function test_members_from_another_club_cannot_be_managed_through_this_one(): void
     {
         $club = Club::factory()->create();

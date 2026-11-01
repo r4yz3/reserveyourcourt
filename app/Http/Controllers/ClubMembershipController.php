@@ -62,7 +62,13 @@ class ClubMembershipController extends Controller
         $isOwner = $club->owner_id === $request->user()->id;
         abort_if($member->role === 'owner', 409, 'The club owner cannot be changed here.');
         abort_if(in_array($data['action'], ['promote', 'demote'], true) && ! $isOwner, 403, 'Only the owner can change moderator roles.');
-        abort_if($member->role === 'moderator' && $data['action'] === 'remove' && ! $isOwner, 403, 'Only the owner can remove a moderator.');
+        abort_unless(match ($data['action']) {
+            'approve', 'decline' => $member->status === 'pending',
+            'promote' => $member->status === 'active' && $member->role === 'member',
+            'demote' => $member->status === 'active' && $member->role === 'moderator',
+            'remove' => $member->status === 'active',
+        }, 409, 'That action does not apply to this membership.');
+        abort_if($member->role === 'moderator' && in_array($data['action'], ['remove', 'decline'], true) && ! $isOwner, 403, 'Only the owner can remove a moderator.');
 
         match ($data['action']) {
             'approve' => $member->update(['status' => 'active']),
