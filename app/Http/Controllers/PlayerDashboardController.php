@@ -8,7 +8,6 @@ use App\Models\PlayerMatch;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -32,19 +31,6 @@ class PlayerDashboardController extends Controller
             'upcoming' => $this->bookingQuery($user)->where('ends_at', '>', now())->orderBy('starts_at')->get(),
             'past' => $this->bookingQuery($user)->where('ends_at', '<=', now())->orderByDesc('starts_at')->paginate(15),
         ]);
-    }
-
-    public function profile(Request $request): View
-    {
-        return view('play.profile', ['user' => $request->user()]);
-    }
-
-    public function updateProfile(Request $request): RedirectResponse
-    {
-        $data = $request->validate(['name' => ['required', 'string', 'max:120'], 'skill_level' => ['nullable', 'in:2.0,2.5,3.0,3.5,4.0,4.5,5.0'], 'home_city' => ['nullable', 'string', 'max:120']]);
-        $request->user()->update($data);
-
-        return redirect()->route('play.profile')->with('success', 'Profile saved.');
     }
 
     /**
