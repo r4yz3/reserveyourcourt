@@ -119,7 +119,7 @@ class CreateBooking
 
             $booking = Booking::query()->create([
                 'reference' => (string) Str::uuid(), 'business_id' => $court->business_id,
-                'court_id' => $court->id, 'coach_id' => $coach?->id, 'coaching_centavos' => $coaching, 'created_by' => $actor?->id, 'guest_key_hash' => $guestHash,
+                'court_id' => $court->id, 'coach_id' => $coach?->id, 'coaching_centavos' => $coaching, 'created_by' => $actor?->id, 'guest_key_hash' => $guestHash, 'player_id' => $data['player_id'] ?? null,
                 'customer_name' => $data['customer_name'], 'customer_contact' => $data['customer_contact'],
                 'starts_at' => $startUtc, 'ends_at' => $endUtc, 'source' => 'online',
                 'status' => $data['payment_method'] === 'cash' ? 'confirmed' : 'held',

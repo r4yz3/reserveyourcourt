@@ -3311,3 +3311,10 @@ textarea:focus-visible {
         padding: 18px;
     }
 }
+
+.status {
+    text-transform: none;
+}
+.status::first-letter {
+    text-transform: uppercase;
+}
